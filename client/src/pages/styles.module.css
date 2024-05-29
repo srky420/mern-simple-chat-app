@@ -1,0 +1,66 @@
+.container {
+  max-width: 1024px;
+  margin: 0 auto;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--light);
+}
+
+form {
+  padding: 3rem;
+  border-radius: 1rem;
+  width: calc(300px + 5vw);
+  background-color: var(--grey);
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+input,
+select {
+  display: block;
+  width: 100%;
+  padding: 0.5rem;
+  outline: none;
+  border: none;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+  background-color: var(--dark);
+  color: var(--light);
+}
+
+input[type="submit"] {
+  margin-top: 2rem;
+  background-color: var(--primary);
+  color: var(--light);
+  font-weight: bold;
+}
+
+input[type="submit"]:hover {
+  background-color: var(--dark);
+  color: var(--light);
+  cursor: pointer;
+}
+
+input:focus,
+select:focus {
+  box-shadow: 0 0 5px 0 var(--primary);
+}
+
+::placeholder {
+  opacity: 0.75;
+  color: var(--light);
+}
+
+::-ms-input-placeholder {
+  color: var(--light);
+}
+
+.error {
+  box-shadow: 0 0 5px 0 red;
+}

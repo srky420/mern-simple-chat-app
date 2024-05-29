@@ -1,0 +1,18 @@
+:root {
+  --system-ui: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  
+  --dark: #222831;
+  --light: #EEEEEE;
+  --grey: #393E46;
+  --primary: #00ADB5;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  font-family: var(--system-ui);
+  background-color: var(--dark);
+}
