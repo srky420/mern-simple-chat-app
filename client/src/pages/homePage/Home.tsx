@@ -10,7 +10,7 @@ interface Props {
   socket: any;
 }
 
-const Home = ({ username, room, setUsername, setRoom, socket }:Props) => {
+const Home = ({ username, room, setUsername, setRoom, socket }:any) => {
   // Navigation hook
   const navigate = useNavigate();
 

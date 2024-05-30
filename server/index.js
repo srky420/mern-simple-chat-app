@@ -6,7 +6,10 @@ const { Server } = require('socket.io');
 require('dotenv').config();
 
 // Apply cors middleware
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:5173',
+  methods: ['GET', 'POST']
+}));
 
 // Create HTTP server
 const server = http.createServer(app);
@@ -35,7 +38,9 @@ io.on('connection', (socket) => {
     const { username, room } = data;
     socket.join(room); // Join the user to room
 
+    chatRoom = room;
     let __createdtime__ = Date.now();
+
     // Emit a message to all users for this room
     socket.to(room).emit('receive_message', {
       message: `${username} joined the room!`,
@@ -43,13 +48,19 @@ io.on('connection', (socket) => {
       __createdtime__,
     });
 
+    // Emit welcome message to joined user
+    socket.emit('receive_message', {
+      username: CHAT_BOT,
+      message: `Welcome! ${username}`,
+      __createdtime__,
+    });
+
     // Save new user to the room and
     // emit an event for all users in that room
     // so they can get new list of users
-    chatRoom = room;
     userList.push({ id: socket.id, username, room });
-    let roomUsersList = userList.filter(user => user.room === room);
-    socket.to(room).emit('chatroom_users', roomUsersList);
+    let roomUsersList = userList.filter(user => user.room === chatRoom);
+    socket.to(chatRoom).emit('chatroom_users', roomUsersList);
     socket.emit('chatroom_users', roomUsersList);
     console.log(userList);
   });

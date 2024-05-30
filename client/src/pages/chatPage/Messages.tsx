@@ -3,21 +3,20 @@ import styles from "./messages.module.css"
 
 const Messages = ({ socket }:any) => {
 
-  const [messagesReceived, setMessagesReceived] = useState([]);
+  const [messagesReceived, setMessagesReceived] = useState<object[]>([]);
 
   // Updating messages whenever new message received
   useEffect(() => {
     socket.on('receive_message', (data:any) => {
       console.log(data);
-      setMessagesReceived((prevState):any => {
-        return [
+      setMessagesReceived(prevState => [
           ...prevState,
           {
             message: data.message,
             username: data.username,
             __createdtime__: data.__createdtime__,
           }
-        ]});
+        ]);
     });
 
     // Clean up

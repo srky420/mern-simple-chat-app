@@ -6,7 +6,7 @@ import { io } from 'socket.io-client'
 import Chat from './pages/chatPage/Chat'
 
 // Define socket
-const socket:any = io.connect('http://localhost:3000')
+const socket = io('http://localhost:3000');
 
 function App() {
   const [username, setUsername] = useState<string>('');
