@@ -19,12 +19,39 @@ const io = new Server(server, {
   },
 });
 
+// Chat variables
+const CHAT_BOT = 'ChatBot';
+let chatRoom = '';
+let userList = [];
+
 // When socket connection establishes
 io.on('connection', (socket) => {
   console.log('User connected ' + socket.id);
 
   // Socket event listeners
+  // Our custom event 'join_room' called when
+  // user joins a room, with payload data
+  socket.on('join_room', (data) => {
+    const { username, room } = data;
+    socket.join(room); // Join the user to room
 
+    let __createdtime__ = Date.now();
+    // Emit a message to all users for this room
+    socket.to(room).emit('receive_message', {
+      message: username + 'joined the room!',
+      username: CHAT_BOT,
+      __createdtime__,
+    });
+
+    // Save new user to the room and
+    // emit an event for all users in that room
+    // so they can get new list of users
+    chatRoom = room;
+    userList.push({ id: socket.id, username, room });
+    let roomUsersList = userList.filter(user => user.room === room);
+    socket.to(room).emit('chatroom_users', roomUsersList);
+    socket.emit('chatroom_users', roomUsersList);
+  });
 });
 
 // Index route

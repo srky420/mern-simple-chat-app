@@ -1,5 +1,5 @@
 import { SyntheticEvent, useRef } from "react";
-import styles from "./styles.module.css";
+import styles from "./home.module.css";
 import { useNavigate } from "react-router-dom";
 
 interface Props {
@@ -24,11 +24,11 @@ const Home = ({ username, room, setUsername, setRoom, socket }:Props) => {
     // Check username and password not empty
     if (username === '' || room === '') {
       !username ? 
-        usernameField.current.classList.add(styles.error) : 
-        usernameField.current.classList.remove(styles.error);
+        usernameField.current.classList.add('error') : 
+        usernameField.current.classList.remove('error');
       !room ? 
-        roomField.current.classList.add(styles.error) :
-        roomField.current.classList.remove(styles.error);
+        roomField.current.classList.add('error') :
+        roomField.current.classList.remove('error');
       return;
     }
 
@@ -38,19 +38,20 @@ const Home = ({ username, room, setUsername, setRoom, socket }:Props) => {
 
     // Reset input states
     console.log('Username: ' + username + ', Room: ' + room);
-    usernameField.current.classList.remove(styles.error);
-    roomField.current.classList.remove(styles.error);
+    usernameField.current.classList.remove('error');
+    roomField.current.classList.remove('error');
     setUsername('');
     setRoom('');
   };
 
   return (
     <div className={styles.container}>
-      <form onSubmit={handleSubmit}>
-        <h1>Join a Room</h1>
+      <form onSubmit={handleSubmit} className={styles.form_container}>
+        <h1 className="heading">Join a Room</h1>
         <label htmlFor="username">
           Enter Username:
           <input 
+            className={styles.username}
             type="text" 
             name="username" 
             id="username" 
@@ -62,6 +63,7 @@ const Home = ({ username, room, setUsername, setRoom, socket }:Props) => {
         <label htmlFor="room">
           Choose Room:
           <select 
+            className={styles.room}
             name="room" id="room" 
             value={room} 
             onChange={(e) => setRoom(e.target.value)} 
@@ -71,7 +73,7 @@ const Home = ({ username, room, setUsername, setRoom, socket }:Props) => {
             <option value="backend">Backend</option>
           </select>
         </label>
-        <input type="submit" value="Join" />
+        <input type="submit" value="Join" className={styles.submit} />
       </form>
     </div>
   );

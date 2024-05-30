@@ -16,3 +16,45 @@ body {
   font-family: var(--system-ui);
   background-color: var(--dark);
 }
+
+input,
+select {
+  display: block;
+  padding: 0.5rem;
+  outline: none;
+  border: none;
+  border-radius: 0.5rem;
+  background-color: var(--dark);
+  color: var(--light);
+}
+
+input:focus,
+select:focus {
+  box-shadow: 0 0 5px 0 var(--primary);
+}
+
+input[type="submit"] {
+  padding: 0.5rem calc(1rem + 1vw);
+  background-color: var(--primary);
+  color: var(--light);
+  font-weight: bold;
+}
+
+input[type="submit"]:hover {
+  background-color: var(--dark);
+  color: var(--light);
+  cursor: pointer;
+}
+
+::placeholder {
+  opacity: 0.75;
+  color: var(--light);
+}
+
+::-ms-input-placeholder {
+  color: var(--light);
+}
+
+.error {
+  box-shadow: 0 0 5px 0 red;
+}
