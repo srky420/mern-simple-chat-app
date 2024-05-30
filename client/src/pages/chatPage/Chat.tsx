@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import styles from './chat.module.css';
+import Messages from './Messages';
 
-const Chat = () => {
+const Chat = ({ socket }:any) => {
 
   const [input, setInput] = useState('');
 
@@ -11,9 +12,7 @@ const Chat = () => {
 
       </div>
       <div className={styles.chatbox}>
-        <div className={styles.msgs_container}>
-
-        </div>
+        <Messages socket={socket} />
         <form className={styles.chat_form}>
           <input 
             type="text" 

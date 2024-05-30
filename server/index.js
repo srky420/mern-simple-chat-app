@@ -14,7 +14,7 @@ const server = http.createServer(app);
 // Create socket.io server
 const io = new Server(server, {
   cors: {
-    origin: 'http://localhost:5173/',
+    origin: 'http://localhost:5173',
     methods: ['GET', 'POST']
   },
 });
@@ -38,7 +38,7 @@ io.on('connection', (socket) => {
     let __createdtime__ = Date.now();
     // Emit a message to all users for this room
     socket.to(room).emit('receive_message', {
-      message: username + 'joined the room!',
+      message: `${username} joined the room!`,
       username: CHAT_BOT,
       __createdtime__,
     });
@@ -51,6 +51,7 @@ io.on('connection', (socket) => {
     let roomUsersList = userList.filter(user => user.room === room);
     socket.to(room).emit('chatroom_users', roomUsersList);
     socket.emit('chatroom_users', roomUsersList);
+    console.log(userList);
   });
 });
 

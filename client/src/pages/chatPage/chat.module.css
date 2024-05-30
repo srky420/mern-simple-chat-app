@@ -18,12 +18,6 @@
   background-color: var(--grey);
 }
 
-.msgs_container {
-  width: 100%;
-  height: calc(100% - 4.5rem);
-  padding: 2rem;
-}
-
 .chat_form {
   position: absolute;
   bottom: 0;
