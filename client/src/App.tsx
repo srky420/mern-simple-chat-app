@@ -23,9 +23,15 @@ function App() {
               setUsername={setUsername} 
               setRoom={setRoom} 
               socket={socket}
-            />
-          } />
-          <Route path='/chat' element={<Chat socket={socket} />} />
+            />} 
+          />
+          <Route path='/chat' element={
+            <Chat 
+              socket={socket} 
+              username={username} 
+              room={room} 
+            />} 
+          />
         </Routes>
       </div>
     </Router>

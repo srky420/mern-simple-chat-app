@@ -64,11 +64,12 @@ io.on('connection', (socket) => {
     socket.emit('chatroom_users', roomUsersList);
     console.log(userList);
   });
-});
 
-// Index route
-app.get('/', (req, res) => {
-  res.send('Hello World');
+  // Send message event
+  socket.on('send_message', (data) => {
+    const { username, message, room, __createdtime__ } = data;
+    io.in(room).emit('receive_message', data);
+  });
 });
 
 // Listen to PORT 3000

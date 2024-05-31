@@ -1,10 +1,15 @@
 import { useState } from 'react';
 import styles from './chat.module.css';
 import Messages from './Messages';
+import SendMessage from './SendMessage';
 
-const Chat = ({ socket }:any) => {
+interface Props {
+  username: string;
+  room: string;
+  socket: any;
+}
 
-  const [input, setInput] = useState('');
+const Chat = ({ username, room, socket }:Props) => {
 
   return (
     <div className={styles.container}>
@@ -13,17 +18,7 @@ const Chat = ({ socket }:any) => {
       </div>
       <div className={styles.chatbox}>
         <Messages socket={socket} />
-        <form className={styles.chat_form}>
-          <input 
-            type="text" 
-            className={styles.chat_input} 
-            value={input} 
-            onChange={(e) => setInput(e.target.value)} 
-            placeholder="Type message..."
-          />
-          <input type="submit" value="Send" />
-        </form>
-
+        <SendMessage socket={socket} username={username} room={room} />
       </div>
       <input type="checkbox" onChange={() => console.log('changed')} id={styles.sidebar_toggle} />
       <div className={styles.overlay}></div>

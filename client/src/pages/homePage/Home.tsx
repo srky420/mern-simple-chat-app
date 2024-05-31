@@ -21,7 +21,7 @@ const Home = ({ username, room, setUsername, setRoom, socket }:any) => {
   const handleSubmit = (e:SyntheticEvent) => {
     e.preventDefault();
 
-    // Check username and password not empty
+    // Check username and room not empty
     if (username === '' || room === '') {
       !username ? 
         usernameField.current.classList.add('error') : 
@@ -40,8 +40,6 @@ const Home = ({ username, room, setUsername, setRoom, socket }:any) => {
     console.log('Username: ' + username + ', Room: ' + room);
     usernameField.current.classList.remove('error');
     roomField.current.classList.remove('error');
-    setUsername('');
-    setRoom('');
   };
 
   return (

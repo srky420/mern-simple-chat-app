@@ -1,0 +1,12 @@
+.chat_form {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: 1rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.chat_input {
+  width: 100%;
+}

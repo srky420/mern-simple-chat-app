@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./messages.module.css"
 
 const Messages = ({ socket }:any) => {
 
+  const msgContainer = useRef<any>(null);
   const [messagesReceived, setMessagesReceived] = useState<object[]>([]);
 
   // Updating messages whenever new message received
@@ -17,11 +18,18 @@ const Messages = ({ socket }:any) => {
             __createdtime__: data.__createdtime__,
           }
         ]);
-    });
+
+      return () => socket.off('receive_message');
+    }, [socket]);
 
     // Clean up
     return () => socket.off('receive_message');
   }, [socket]);
+
+  // Scroll to bottom on new message
+  useEffect(() => {
+    msgContainer.current.scrollTop = msgContainer.current.scrollHeight;
+  }, [messagesReceived]);
 
   // Parse date
   function parseDate(timestamp:string) {
@@ -30,7 +38,7 @@ const Messages = ({ socket }:any) => {
   }
 
   return (
-    <div className={styles.msgs_container}>
+    <div className={styles.msgs_container} ref={msgContainer}>
       {messagesReceived.map((msg:any, i) => (
         <div className={styles.message_box} key={'msg' + i}>
           <div className={styles.message_header}>
