@@ -45,7 +45,7 @@ const Home = ({ username, room, setUsername, setRoom, socket }:any) => {
   return (
     <div className={styles.container}>
       <form onSubmit={handleSubmit} className={styles.form_container}>
-        <h1 className="heading">Join a Room</h1>
+        <h1>Join a Room</h1>
         <label htmlFor="username">
           Enter Username:
           <input 

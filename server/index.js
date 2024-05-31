@@ -3,6 +3,7 @@ const app = express();
 const cors = require('cors');
 const http = require('http');
 const { Server } = require('socket.io');
+const leaveRoom = require('./util/leaveRoom');
 require('dotenv').config();
 
 // Apply cors middleware
@@ -43,7 +44,7 @@ io.on('connection', (socket) => {
 
     // Emit a message to all users for this room
     socket.to(room).emit('receive_message', {
-      message: `${username} joined the room!`,
+      message: `${username} has joined the chat!`,
       username: CHAT_BOT,
       __createdtime__,
     });
@@ -69,6 +70,24 @@ io.on('connection', (socket) => {
   socket.on('send_message', (data) => {
     const { username, message, room, __createdtime__ } = data;
     io.in(room).emit('receive_message', data);
+  });
+
+  // Leave room event
+  socket.on('leave_room', (data) => {
+    const { username, room } = data;
+    // Leave room
+    socket.leave(room);
+    const __createdtime__ = Date.now();
+    // Remove user from users list
+    userList = leaveRoom(socket.id, userList);
+
+    // Let client know that user has left
+    socket.to(room).emit('chatroom_users', userList);
+    socket.to(room).emit('receive_message', {
+      username: CHAT_BOT,
+      message: `${username} has left the chat!`,
+      __createdtime__
+    });
   });
 });
 

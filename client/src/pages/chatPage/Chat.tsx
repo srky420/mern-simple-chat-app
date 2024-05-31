@@ -1,7 +1,8 @@
-import { useState } from 'react';
 import styles from './chat.module.css';
-import Messages from './Messages';
-import SendMessage from './SendMessage';
+import Messages from './components/Messages';
+import SendMessage from './components/SendMessage';
+import Sidebar from './components/Sidebar';
+import LeaveRoom from './components/LeaveRoom';
 
 interface Props {
   username: string;
@@ -11,10 +12,13 @@ interface Props {
 
 const Chat = ({ username, room, socket }:Props) => {
 
+  console.log(socket.id);
+
   return (
     <div className={styles.container}>
-      <div className={styles.userslist}>
-
+      <div className={styles.sidebar_full}>
+        <Sidebar username={username} room={room} socket={socket} />
+        <LeaveRoom username={username} room={room} socket={socket} />
       </div>
       <div className={styles.chatbox}>
         <Messages socket={socket} />
@@ -25,8 +29,9 @@ const Chat = ({ username, room, socket }:Props) => {
       <label className={styles.sidebaropen} htmlFor={styles.sidebar_toggle}>
         <i className="fa-solid fa-circle-chevron-right"></i>
       </label>
-      <aside className={styles.sidebar}>
-
+      <aside className={styles.sidebar_mobile}>
+        <Sidebar username={username} room={room} socket={socket} />
+        <LeaveRoom room={room} socket={socket} />
       </aside>
     </div>
   );

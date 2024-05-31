@@ -13,6 +13,7 @@ const Messages = ({ socket }:any) => {
       setMessagesReceived(prevState => [
           ...prevState,
           {
+            id: data.id,
             message: data.message,
             username: data.username,
             __createdtime__: data.__createdtime__,
@@ -40,7 +41,7 @@ const Messages = ({ socket }:any) => {
   return (
     <div className={styles.msgs_container} ref={msgContainer}>
       {messagesReceived.map((msg:any, i) => (
-        <div className={styles.message_box} key={'msg' + i}>
+        <div className={msg.id === socket.id ? styles.message_box_self : styles.message_box} key={'msg' + i}>
           <div className={styles.message_header}>
             <h3>{msg.username}</h3>
             <p>{parseDate(msg.__createdtime__)}</p>

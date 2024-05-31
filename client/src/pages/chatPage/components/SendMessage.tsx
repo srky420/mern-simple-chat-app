@@ -17,7 +17,7 @@ const SendMessage = ({ username, room, socket }:Props) => {
     const __createdtime__ = Date.now();
     if (message !== '') {
       console.log('Username: ' + username + 'Room: ' + room);
-      socket.emit('send_message', { username, message, room, __createdtime__ });
+      socket.emit('send_message', { id: socket.id, username, message, room, __createdtime__ });
       setMessage('');
     }
   }

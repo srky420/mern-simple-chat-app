@@ -6,11 +6,26 @@
 }
 
 .message_box {
-  padding: calc(1rem + 1vw);
+  padding: calc(0.5rem + 1vw);
   background-color: var(--dark);
   border-radius: 1rem;
   color: var(--light);
   margin-bottom: 1rem;
+  width: calc(15rem + 15vw);
+  word-wrap: break-word;
+  border-top-left-radius: 0;
+}
+
+.message_box_self {
+  background-color: var(--primary);
+  margin-left: auto;
+  padding: calc(0.5rem + 1vw);
+  border-radius: 1rem;
+  color: var(--light);
+  margin-bottom: 1rem;
+  width: calc(15rem + 15vw);
+  word-wrap: break-word;
+  border-top-right-radius: 0;
 }
 
 .message_header {
