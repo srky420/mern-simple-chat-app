@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import styles from "./sidebar.module.css";
 
-const Sidebar = ({ username, room, socket }:any) => {
+const Sidebar = ({ room, socket }:any) => {
 
   // Users list
   const [usersList, setUsersList] = useState<object[]>([]);
@@ -12,11 +12,11 @@ const Sidebar = ({ username, room, socket }:any) => {
       console.log(data);
       setUsersList(data);
     });
-  });
+  }, [socket, room]);
 
   return (
     <div className={styles.sidebar}>
-      <h1>{room.split('')[0].toUpperCase() + room.slice(1,)}</h1>
+      <h1>{room && room.split('')[0].toUpperCase() + room.slice(1,)}</h1>
       <hr />
       <div className={styles.users_list}>
         <h2>Users Online</h2>

@@ -10,7 +10,7 @@ interface Props {
   socket: any;
 }
 
-const Home = ({ username, room, setUsername, setRoom, socket }:any) => {
+const Home = ({ username, room, setUsername, setRoom, socket }:Props) => {
   // Navigation hook
   const navigate = useNavigate();
 
@@ -34,6 +34,7 @@ const Home = ({ username, room, setUsername, setRoom, socket }:any) => {
 
     // Emit socket event join_room, and redirect
     socket.emit('join_room', { username, room });
+    localStorage.setItem('chat_room_data', JSON.stringify({ username, room }));
     navigate('/chat', { replace: true });
 
     // Reset input states

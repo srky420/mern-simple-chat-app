@@ -6,6 +6,7 @@ const LeaveRoom = ({ username, room, socket }:any) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
+    localStorage.removeItem('chat_room_data');
     socket.emit('leave_room', { username, room });
     navigate('/', { replace: true });
   }

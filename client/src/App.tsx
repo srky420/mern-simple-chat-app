@@ -30,6 +30,8 @@ function App() {
               socket={socket} 
               username={username} 
               room={room} 
+              setUsername={setUsername} 
+              setRoom={setRoom} 
             />} 
           />
         </Routes>

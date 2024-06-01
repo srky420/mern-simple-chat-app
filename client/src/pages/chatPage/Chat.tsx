@@ -3,21 +3,41 @@ import Messages from './components/Messages';
 import SendMessage from './components/SendMessage';
 import Sidebar from './components/Sidebar';
 import LeaveRoom from './components/LeaveRoom';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface Props {
   username: string;
   room: string;
+  setUsername: any;
+  setRoom: any;
   socket: any;
 }
 
-const Chat = ({ username, room, socket }:Props) => {
+const Chat = ({ username, room, socket, setUsername, setRoom }:Props) => {
 
-  console.log(socket.id);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Check localStorage for chat room data
+    if (localStorage.getItem('chat_room_data')) {
+      if (username === '' || room === '') {
+        let data:any = localStorage.getItem('chat_room_data');
+        const { username, room } = JSON.parse(data);
+        socket.emit('join_room', { username, room });
+        setUsername(username);
+        setRoom(room);
+      }
+    }
+    else {
+      navigate('/', { replace: true });
+    }
+  }, []);
 
   return (
     <div className={styles.container}>
       <div className={styles.sidebar_full}>
-        <Sidebar username={username} room={room} socket={socket} />
+        <Sidebar room={room} socket={socket} />
         <LeaveRoom username={username} room={room} socket={socket} />
       </div>
       <div className={styles.chatbox}>
@@ -30,7 +50,7 @@ const Chat = ({ username, room, socket }:Props) => {
         <i className="fa-solid fa-circle-chevron-right"></i>
       </label>
       <aside className={styles.sidebar_mobile}>
-        <Sidebar username={username} room={room} socket={socket} />
+        <Sidebar room={room} socket={socket} />
         <LeaveRoom room={room} socket={socket} />
       </aside>
     </div>
