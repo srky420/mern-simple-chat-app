@@ -44,6 +44,7 @@ io.on('connection', (socket) => {
 
     // Emit a message to all users for this room
     socket.to(room).emit('receive_message', {
+      id: 'chat_bot',
       message: `${username} has joined the chat!`,
       username: CHAT_BOT,
       __createdtime__,
@@ -51,8 +52,9 @@ io.on('connection', (socket) => {
 
     // Emit welcome message to joined user
     socket.emit('receive_message', {
+      id: 'chat_bot',
       username: CHAT_BOT,
-      message: `Welcome! ${username}`,
+      message: `Welcome to the chat, ${username}!`,
       __createdtime__,
     });
 
@@ -80,15 +82,38 @@ io.on('connection', (socket) => {
     const __createdtime__ = Date.now();
     // Remove user from users list
     userList = leaveRoom(socket.id, userList);
+    console.log(userList);
 
     // Let client know that user has left
     socket.to(room).emit('chatroom_users', userList);
     socket.to(room).emit('receive_message', {
+      id: 'chat_bot',
       username: CHAT_BOT,
       message: `${username} has left the chat!`,
       __createdtime__
     });
   });
+
+  // Disconnect event
+  socket.on('disconnect', () => {
+    console.log('User disconnected from chat');
+    const user = userList.find(user => user.id == socket.id);
+
+    // If user is in a chat room, update users list
+    // and emit a message
+    if (user) {
+      userList = leaveRoom(socket.id, userList);
+      console.log(userList)
+      socket.to(chatRoom).emit('chatroom_users', userList);
+      const __createdtime__ = Date.now();
+      socket.to(chatRoom).emit('receive_message', {
+        id: 'chat_bot',
+        username: CHAT_BOT,
+        message: `${user.username} has disconnected from the chat!`,
+        __createdtime__,
+      });
+    }
+  })
 });
 
 // Listen to PORT 3000

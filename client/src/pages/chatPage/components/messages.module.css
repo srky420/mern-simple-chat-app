@@ -28,6 +28,17 @@
   border-top-right-radius: 0;
 }
 
+.message_box_chatbot {
+  background-color: var(--dark);
+  padding: calc(0.5rem + 1vw);
+  border-radius: 1rem;
+  color: var(--primary);
+  margin-bottom: 1rem;
+  width: calc(15rem + 15vw);
+  word-wrap: break-word;
+  border-top-left-radius: 0;
+}
+
 .message_header {
   display: flex;
   justify-content: space-between;
@@ -37,4 +48,8 @@
 
 .message_header h3 {
   font-weight: bold;
+}
+
+.message_header h3 i {
+  margin-right: 0.5rem;
 }

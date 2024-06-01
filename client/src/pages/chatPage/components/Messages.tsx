@@ -41,9 +41,20 @@ const Messages = ({ socket }:any) => {
   return (
     <div className={styles.msgs_container} ref={msgContainer}>
       {messagesReceived.map((msg:any, i) => (
-        <div className={msg.id === socket.id ? styles.message_box_self : styles.message_box} key={'msg' + i}>
+        <div 
+          className={
+            msg.id === socket.id ? 
+            styles.message_box_self :
+            msg.id === 'chat_bot' ?
+            styles.message_box_chatbot : 
+            styles.message_box} 
+          key={'msg' + i}
+        >
           <div className={styles.message_header}>
-            <h3>{msg.username}</h3>
+            <h3>
+              {msg.id === 'chat_bot' && <i className="fa-solid fa-robot"></i>}
+              {msg.username}
+            </h3>
             <p>{parseDate(msg.__createdtime__)}</p>
           </div>
           <div className={styles.message_body}>
