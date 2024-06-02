@@ -37,14 +37,14 @@ export const Signup = async (req: Request, res: Response) => {
 
     res.status(201).json({
       message: 'User signed in successfully',
-      suceess: true,
+      sucess: true,
       user
     });
   }
   catch (e) {
     console.error(e);
   }
-}
+};
 
 // Define login controller
 export const Login = async (req: Request, res: Response) => {
@@ -80,4 +80,4 @@ export const Login = async (req: Request, res: Response) => {
   catch (e) {
     console.error(e);
   }
-}
+};

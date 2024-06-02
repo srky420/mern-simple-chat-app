@@ -31,4 +31,4 @@ export const UserVerification: RequestHandler = async (req, res, next) => {
     req.userId = data.id;
     next();
   });
-}
+};
