@@ -1,5 +1,7 @@
 import { Schema, model } from "mongoose";
 
+const bcrypt = require('bcrypt');
+
 // User Interface
 interface IUser {
   username: string;
@@ -9,15 +11,18 @@ interface IUser {
   createdtime: Date;
 }
 
+// Define User schema
 const userSchema = new Schema<IUser>({
   username: {
     type: String,
     required: true,
+    unique: true,
     maxLength: 50
   },
   email: {
     type: String,
     required: true,
+    unique: true,
     maxLength: 255
   },
   password: {
@@ -34,5 +39,11 @@ const userSchema = new Schema<IUser>({
   }
 });
 
+// Pre-save password hash
+userSchema.pre('save', async function() {
+  this.password = await bcrypt.hash(this.password, 12);
+});
+
+// Define User model
 const UserModel = model('User', userSchema); 
 export default UserModel;
