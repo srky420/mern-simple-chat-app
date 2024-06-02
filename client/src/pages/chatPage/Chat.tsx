@@ -9,12 +9,12 @@ import { useNavigate } from 'react-router-dom';
 interface Props {
   username: string;
   room: string;
-  setUsername: any;
-  setRoom: any;
+  setUsername: (val: string) => void;
+  setRoom: (val: string) => void;
   socket: any;
 }
 
-const Chat = ({ username, room, socket, setUsername, setRoom }:Props) => {
+const Chat = ({ username, room, socket, setUsername, setRoom }: Props) => {
 
   const navigate = useNavigate();
 
@@ -22,7 +22,7 @@ const Chat = ({ username, room, socket, setUsername, setRoom }:Props) => {
     // Check localStorage for chat room data
     if (localStorage.getItem('chat_room_data')) {
       if (username === '' || room === '') {
-        let data:any = localStorage.getItem('chat_room_data');
+        let data: any = localStorage.getItem('chat_room_data');
         const { username, room } = JSON.parse(data);
         socket.emit('join_room', { username, room });
         setUsername(username);
@@ -51,7 +51,7 @@ const Chat = ({ username, room, socket, setUsername, setRoom }:Props) => {
       </label>
       <aside className={styles.sidebar_mobile}>
         <Sidebar room={room} socket={socket} />
-        <LeaveRoom room={room} socket={socket} />
+        <LeaveRoom username={username} room={room} socket={socket} />
       </aside>
     </div>
   );

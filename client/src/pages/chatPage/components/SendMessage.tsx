@@ -7,11 +7,11 @@ interface Props {
   socket: any;
 }
 
-const SendMessage = ({ username, room, socket }:Props) => {
+const SendMessage = ({ username, room, socket }: Props) => {
 
   const [message, setMessage] = useState('');
 
-  const handleSubmit = (e:SyntheticEvent) => {
+  const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
     // Emit message to the server with data
     const __createdtime__ = Date.now();

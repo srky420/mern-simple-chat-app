@@ -1,14 +1,19 @@
 import { useEffect, useState } from "react";
 import styles from "./sidebar.module.css";
 
-const Sidebar = ({ room, socket }:any) => {
+interface Props {
+  room: string,
+  socket: any,
+}
+
+const Sidebar = ({ room, socket }: Props) => {
 
   // Users list
   const [usersList, setUsersList] = useState<object[]>([]);
 
   // Users list event listener for socket
   useEffect(() => {
-    socket.on('chatroom_users', (data:object[]) => {
+    socket.on('chatroom_users', (data: object[]) => {
       console.log(data);
       setUsersList(data);
     });
@@ -21,7 +26,7 @@ const Sidebar = ({ room, socket }:any) => {
       <div className={styles.users_list}>
         <h2>Users Online</h2>
         <ul>
-          {usersList.map((user:any, i) => (
+          {usersList.map((user: any, i) => (
             <li key={'user' + i}>
               <i className="fa-solid fa-circle"></i>
               <span>{user.username}</span>

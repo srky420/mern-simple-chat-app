@@ -1,14 +1,18 @@
 import { useEffect, useRef, useState } from "react";
 import styles from "./messages.module.css"
 
-const Messages = ({ socket }:any) => {
+interface Props {
+  socket: any,
+}
+
+const Messages = ({ socket }: Props) => {
 
   const msgContainer = useRef<any>(null);
   const [messagesReceived, setMessagesReceived] = useState<object[]>([]);
 
   // Updating messages whenever new message received
   useEffect(() => {
-    socket.on('receive_message', (data:any) => {
+    socket.on('receive_message', (data: any) => {
       console.log(data);
       setMessagesReceived(prevState => [
           ...prevState,
@@ -33,14 +37,14 @@ const Messages = ({ socket }:any) => {
   }, [messagesReceived]);
 
   // Parse date
-  function parseDate(timestamp:string) {
+  function parseDate(timestamp: string) {
     const date = new Date(timestamp);
     return date.toLocaleString()
   }
 
   return (
     <div className={styles.msgs_container} ref={msgContainer}>
-      {messagesReceived.map((msg:any, i) => (
+      {messagesReceived.map((msg: any, i) => (
         <div 
           className={
             msg.id === socket.id ? 

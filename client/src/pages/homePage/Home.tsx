@@ -5,12 +5,12 @@ import { useNavigate } from "react-router-dom";
 interface Props {
   username: string;
   room: string;
-  setUsername: any;
-  setRoom: any;
+  setUsername: (val: string) => void;
+  setRoom: (val: string) => void;
   socket: any;
 }
 
-const Home = ({ username, room, setUsername, setRoom, socket }:Props) => {
+const Home = ({ username, room, setUsername, setRoom, socket }: Props) => {
   // Navigation hook
   const navigate = useNavigate();
 
@@ -18,7 +18,7 @@ const Home = ({ username, room, setUsername, setRoom, socket }:Props) => {
   const usernameField = useRef<any>(null);
   const roomField = useRef<any>(null);
 
-  const handleSubmit = (e:SyntheticEvent) => {
+  const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
 
     // Check username and room not empty

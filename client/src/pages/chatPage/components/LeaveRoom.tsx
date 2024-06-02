@@ -1,7 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import styles from "./leaveroom.module.css";
 
-const LeaveRoom = ({ username, room, socket }:any) => {
+interface Props {
+  username: string,
+  room: string,
+  socket: any,
+}
+
+const LeaveRoom = ({ username, room, socket }: Props) => {
 
   const navigate = useNavigate();
 

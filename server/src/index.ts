@@ -1,10 +1,13 @@
-const express = require('express');
-const app = express();
-const cors = require('cors');
-const http = require('http');
-const { Server } = require('socket.io');
-const leaveRoom = require('./util/leaveRoom');
-require('dotenv').config();
+import express, { Express, Request, Response } from "express";
+import cors from "cors";
+import { createServer } from "http";
+import { Server } from "socket.io";
+import leaveRoom from "./util/leaveRoom";
+import mongoose from "mongoose";
+import { configDotenv } from "dotenv"; 
+
+configDotenv();
+const app: Express = express();
 
 // Apply cors middleware
 app.use(cors({
@@ -13,29 +16,29 @@ app.use(cors({
 }));
 
 // Create HTTP server
-const server = http.createServer(app);
+const server: any = createServer(app);
 
 // Create socket.io server
-const io = new Server(server, {
+const io: Server = new Server(server, { 
   cors: {
     origin: 'http://localhost:5173',
     methods: ['GET', 'POST']
-  },
+  }
 });
 
 // Chat variables
-const CHAT_BOT = 'ChatBot';
-let chatRoom = '';
-let userList = [];
+const CHAT_BOT: string = 'ChatBot';
+let chatRoom: string = '';
+let userList: any[] = [];
 
 // When socket connection establishes
-io.on('connection', (socket) => {
+io.on('connection', (socket: any) => {
   console.log('User connected ' + socket.id);
 
   // Socket event listeners
   // Our custom event 'join_room' called when
   // user joins a room, with payload data
-  socket.on('join_room', (data) => {
+  socket.on('join_room', (data: any) => {
     const { username, room } = data;
     socket.join(room); // Join the user to room
 
@@ -69,13 +72,13 @@ io.on('connection', (socket) => {
   });
 
   // Send message event
-  socket.on('send_message', (data) => {
+  socket.on('send_message', (data: any) => {
     const { username, message, room, __createdtime__ } = data;
     io.in(room).emit('receive_message', data);
   });
 
   // Leave room event
-  socket.on('leave_room', (data) => {
+  socket.on('leave_room', (data: any) => {
     const { username, room } = data;
     // Leave room
     socket.leave(room);
@@ -115,6 +118,12 @@ io.on('connection', (socket) => {
     }
   })
 });
+
+// Connect to MongoDB
+const MONGO_URI: any = process.env.MONGO_URI;
+mongoose.connect(MONGO_URI)
+  .then(() => console.log('MongoDB connection established'))
+  .catch(err => console.log(err));
 
 // Listen to PORT 3000
 const PORT = process.env.PORT;
