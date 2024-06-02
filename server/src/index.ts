@@ -5,15 +5,21 @@ import { Server } from "socket.io";
 import leaveRoom from "./util/leaveRoom";
 import mongoose from "mongoose";
 import { configDotenv } from "dotenv"; 
+import router from "./Routes/AuthRoutes";
 
 configDotenv();
 const app: Express = express();
+const cookieParser = require('cookie-parser');
 
-// Apply cors middleware
+// Apply middleware
 app.use(cors({
   origin: 'http://localhost:5173',
-  methods: ['GET', 'POST']
+  methods: ['GET', 'PUT', 'POST', 'DELETE'],
+  credentials: true
 }));
+app.use(express.json());
+app.use(cookieParser());
+app.use('/', router);
 
 // Create HTTP server
 const server: any = createServer(app);
