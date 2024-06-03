@@ -1,10 +1,20 @@
 import { SyntheticEvent, useEffect, useState } from "react";
 import styles from "./login.module.css";
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import 'react-toastify/dist/ReactToastify.css';
 import { useCookies } from "react-cookie";
+
+interface Input {
+  email: string,
+  password: string,
+}
+
+interface Error {
+  email: boolean,
+  password: boolean,
+}
 
 const Login = () => {
 
@@ -12,12 +22,15 @@ const Login = () => {
   const navigate = useNavigate();
 
   // Input state
-  const [input, setInput] = useState({
+  const [input, setInput] = useState<Input>({
     email: '',
     password: ''
   });
   // Error state
-  const [errors, setErrors] = useState<string[]>([]);
+  const [errors, setErrors] = useState<Error>({
+    email: false,
+    password: false
+  });
 
   // Check if already logged in
   useEffect(() => {
@@ -29,7 +42,14 @@ const Login = () => {
   const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
     // Check valid input
+    setErrors({
+      email: input.email === '',
+      password: input.password === ''
+    });
     if (!input.email || !input.password) {
+      toast.error('All fields are required.', {
+        position: 'bottom-right'
+      });
       return;
     }
 
@@ -70,7 +90,7 @@ const Login = () => {
         <label htmlFor="email">
           Enter Email Address:
           <input 
-            className={errors.includes("email") ? "error" : ""}
+            className={!errors.email ? "" : "error"}
             type="email" 
             name="email" 
             id="email" 
@@ -82,7 +102,7 @@ const Login = () => {
         <label htmlFor="password">
           Enter Password:
           <input 
-            className={errors.includes("password") ? "error" : ""}
+            className={!errors.password ? "" : "error"}
             type="password" 
             name="password" 
             id="password" 

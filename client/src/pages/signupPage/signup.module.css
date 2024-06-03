@@ -14,6 +14,7 @@
   border-radius: 1rem;
   width: calc(300px + 5vw);
   background-color: var(--grey);
+  animation: fadeIn 0.2s linear;
 }
 
 .form_container h1 {
@@ -32,4 +33,13 @@
 
 .link_text {
   text-align: center;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }

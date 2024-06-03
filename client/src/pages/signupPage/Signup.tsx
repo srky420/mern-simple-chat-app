@@ -1,7 +1,7 @@
 import { SyntheticEvent, useEffect, useState } from "react";
 import styles from "./signup.module.css";
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import 'react-toastify/dist/ReactToastify.css';
 import { useCookies } from "react-cookie";
@@ -11,6 +11,13 @@ interface Input {
   email: string,
   password: string,
   confirmation: string
+}
+
+interface Error {
+  username: boolean,
+  email: boolean,
+  password: boolean,
+  confirmation: boolean
 }
 
 const Signup = () => {
@@ -26,7 +33,12 @@ const Signup = () => {
     confirmation: ''
   });
   // Error state
-  const [errors, setErrors] = useState<string[]>([]);
+  const [errors, setErrors] = useState<Error>({
+    username: false,
+    email: false,
+    password: false,
+    confirmation: false
+  });
 
   // Check if already logged in
   useEffect(() => {
@@ -37,7 +49,28 @@ const Signup = () => {
 
   const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
+    // Check valid input
+    setErrors({
+      username: input.username === '',
+      email: input.email === '',
+      password: input.password === '',
+      confirmation: input.confirmation === ''
+    });
     if (!input.username || !input.email || !input.password || !input.confirmation) {
+      toast.error('All fields are required.', {
+        position: 'bottom-right'
+      });
+      return;
+    }
+    if (input.password !== input.confirmation) {
+      setErrors((state) => ({
+        ...state,
+        password: true,
+        confirmation: true
+      }));
+      toast.error('Passwords do not match.', {
+        position: 'bottom-right'
+      });
       return;
     }
 
@@ -80,7 +113,7 @@ const Signup = () => {
         <label htmlFor="username">
           Enter Username:
           <input 
-            className={errors.includes("username") ? "error" : ""}
+            className={errors.username ? "error" : ""}
             type="text" 
             name="username" 
             id="username" 
@@ -92,7 +125,7 @@ const Signup = () => {
         <label htmlFor="email">
           Enter Email Address:
           <input 
-            className={errors.includes("email") ? "error" : ""}
+            className={errors.email ? "error" : ""}
             type="email" 
             name="email" 
             id="email" 
@@ -104,7 +137,7 @@ const Signup = () => {
         <label htmlFor="password">
           Enter Password:
           <input 
-            className={errors.includes("password") ? "error" : ""}
+            className={errors.password ? "error" : ""}
             type="password" 
             name="password" 
             id="password" 
@@ -116,7 +149,7 @@ const Signup = () => {
         <label htmlFor="confirmation">
           Enter Confirmation:
           <input 
-            className={errors.includes("confirmation") ? "error" : ""}
+            className={errors.confirmation ? "error" : ""}
             type="password" 
             name="confirmation" 
             id="confirmation" 
