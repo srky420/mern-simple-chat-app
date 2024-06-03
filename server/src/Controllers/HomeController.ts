@@ -6,7 +6,7 @@ export const Home = async (req: Request, res: Response) => {
   const userId = req.userId;
 
   // Fetch user doc
-  const user = await UserModel.findById(userId, '-_id');
+  const user = await UserModel.findById(userId, '-_id -password');
   if (!user) {
     return res.json({ status: false });
   }

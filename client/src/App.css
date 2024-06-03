@@ -30,7 +30,8 @@ button {
 }
 
 input:focus,
-select:focus {
+select:focus,
+button:focus {
   box-shadow: 0 0 5px 0 var(--primary);
 }
 
@@ -38,7 +39,7 @@ input[type="submit"], button {
   padding: 0.5rem calc(1rem + 1vw);
   background-color: var(--primary);
   color: var(--light);
-  font-weight: bold;
+  font-weight: bold !important;
 }
 
 input[type="submit"]:hover, button:hover {
@@ -59,3 +60,13 @@ input[type="submit"]:hover, button:hover {
 .error {
   box-shadow: 0 0 5px 0 red;
 }
+
+a {
+  color: var(--light);
+  text-underline-offset: 4px;
+}
+
+a:hover {
+  text-decoration: none;
+}
+

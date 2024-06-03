@@ -36,8 +36,8 @@ export const Signup = async (req: Request, res: Response) => {
     });
 
     res.status(201).json({
-      message: 'User signed in successfully',
-      sucess: true,
+      message: 'You have signed up successfully.',
+      success: true,
       user
     });
   }
@@ -69,11 +69,11 @@ export const Login = async (req: Request, res: Response) => {
 
     // Set cookie
     res.cookie('token', token, {
-      httpOnly: true
+      httpOnly: false
     });
 
     res.status(200).json({
-      message: 'User logged in successfully',
+      message: 'You have logged in successfully.',
       success: true
     });
   }

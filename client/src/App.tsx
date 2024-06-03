@@ -6,6 +6,7 @@ import { io } from 'socket.io-client'
 import Chat from './pages/chatPage/Chat'
 import Login from './pages/loginPage/Login'
 import Signup from './pages/signupPage/Signup'
+import { ToastContainer } from 'react-toastify'
 
 // Define socket
 const socket = io('http://localhost:3000');
@@ -39,6 +40,7 @@ function App() {
           <Route path='/login' element={<Login />} />
           <Route path='/signup' element={<Signup />} />
         </Routes>
+        <ToastContainer />
       </div>
     </Router>
   )

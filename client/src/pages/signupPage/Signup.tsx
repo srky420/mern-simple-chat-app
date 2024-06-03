@@ -1,8 +1,10 @@
-import { SyntheticEvent, useState } from "react";
+import { SyntheticEvent, useEffect, useState } from "react";
 import styles from "./signup.module.css";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import 'react-toastify/dist/ReactToastify.css';
+import { useCookies } from "react-cookie";
 
 interface Input {
   username: string,
@@ -14,6 +16,7 @@ interface Input {
 const Signup = () => {
 
   const navigate = useNavigate();
+  const [cookies, setCookie, removeCookie] = useCookies(['token']);
 
   // Input state
   const [input, setInput] = useState<Input>({
@@ -25,6 +28,13 @@ const Signup = () => {
   // Error state
   const [errors, setErrors] = useState<string[]>([]);
 
+  // Check if already logged in
+  useEffect(() => {
+    if (cookies.token) {
+      return navigate('/');
+    }
+  }, []);
+
   const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
     if (!input.username || !input.email || !input.password || !input.confirmation) {
@@ -33,7 +43,7 @@ const Signup = () => {
 
     try {
       // Request backend for sign up
-      const { data } = await axios.post('http://localhost:4000/signup', input, {
+      const { data } = await axios.post('http://localhost:3000/signup', input, {
         withCredentials: true
       });
 
@@ -116,8 +126,8 @@ const Signup = () => {
           />
         </label>
         <input type="submit" value="Sign up" className={styles.submit} />
+        <p className={styles.link_text}>Already have an account? <Link to={'/login'}>Log in</Link></p>
       </form>
-      <ToastContainer />
     </div>
   )
 }

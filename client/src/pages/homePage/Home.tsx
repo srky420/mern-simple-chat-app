@@ -1,6 +1,9 @@
-import { SyntheticEvent, useRef } from "react";
+import { SyntheticEvent, useEffect, useRef } from "react";
 import styles from "./home.module.css";
 import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
 
 interface Props {
   username: string;
@@ -11,21 +14,53 @@ interface Props {
 }
 
 const Home = ({ username, room, setUsername, setRoom, socket }: Props) => {
+  
+  // React coookies hook
+  const [cookies, setCookie, removeCookie] = useCookies(['token'])
+  
   // Navigation hook
   const navigate = useNavigate();
 
   // Reference to input fields
-  const usernameField = useRef<any>(null);
   const roomField = useRef<any>(null);
+
+  // Ensure user logged in or not
+  useEffect(() => {
+    async function verifyUser() {
+      // Request backend for index data
+      const { data } = await axios.post('http://localhost:3000/', {}, {
+        withCredentials: true
+      });
+
+      const { status, user } = data;
+      if (status) {
+        toast.success(`Welcome!, ${user.username}`, {
+          position: 'bottom-right'
+        });
+        setUsername(user.username);
+        console.log(user);
+      }
+      else {
+        return (removeCookie('token'), navigate('/login', { replace: true }));
+      }
+    }
+    verifyUser();
+
+  }, [cookies, removeCookie]);
+
+  const handleLogout = () => {
+    removeCookie('token');
+    navigate('/', { replace: true });
+    toast.success('You have logged out.', {
+      position: 'bottom-right'
+    });
+  }
 
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
 
     // Check username and room not empty
     if (username === '' || room === '') {
-      !username ? 
-        usernameField.current.classList.add('error') : 
-        usernameField.current.classList.remove('error');
       !room ? 
         roomField.current.classList.add('error') :
         roomField.current.classList.remove('error');
@@ -39,7 +74,6 @@ const Home = ({ username, room, setUsername, setRoom, socket }: Props) => {
 
     // Reset input states
     console.log('Username: ' + username + ', Room: ' + room);
-    usernameField.current.classList.remove('error');
     roomField.current.classList.remove('error');
   };
 
@@ -48,7 +82,7 @@ const Home = ({ username, room, setUsername, setRoom, socket }: Props) => {
       <form onSubmit={handleSubmit} className={styles.form_container}>
         <h1>Join a Room</h1>
         <label htmlFor="username">
-          Enter Username:
+          Username:
           <input 
             className={styles.username}
             type="text" 
@@ -56,8 +90,8 @@ const Home = ({ username, room, setUsername, setRoom, socket }: Props) => {
             id="username" 
             placeholder="Username..." 
             value={username} 
-            onChange={(e) => setUsername(e.target.value)} 
-            ref={usernameField} />
+            disabled
+          />
         </label>
         <label htmlFor="room">
           Choose Room:
@@ -74,6 +108,7 @@ const Home = ({ username, room, setUsername, setRoom, socket }: Props) => {
         </label>
         <input type="submit" value="Join" className={styles.submit} />
       </form>
+      <button className={styles.logout} onClick={handleLogout}>Log out</button>
     </div>
   );
 };

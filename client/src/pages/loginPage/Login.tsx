@@ -1,7 +1,15 @@
-import { SyntheticEvent, useState } from "react";
+import { SyntheticEvent, useEffect, useState } from "react";
 import styles from "./login.module.css";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import { Link, useNavigate } from "react-router-dom";
+import 'react-toastify/dist/ReactToastify.css';
+import { useCookies } from "react-cookie";
 
 const Login = () => {
+
+  const [cookies] = useCookies();
+  const navigate = useNavigate();
 
   // Input state
   const [input, setInput] = useState({
@@ -11,8 +19,40 @@ const Login = () => {
   // Error state
   const [errors, setErrors] = useState<string[]>([]);
 
-  const handleSubmit = (e: SyntheticEvent) => {
+  // Check if already logged in
+  useEffect(() => {
+    if (cookies.token) {
+      return navigate('/', { replace: true });
+    }
+  }, []);
+
+  const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
+    // Check valid input
+    if (!input.email || !input.password) {
+      return;
+    }
+
+    try {
+      // Request backend for login
+      const { data } = await axios.post('http://localhost:3000/login', input, {
+        withCredentials: true
+      });
+      if (data.success) {
+        toast.success(data.message, {
+          position: 'bottom-right'
+        });
+        navigate('/', { replace: true });
+      }
+      else {
+        toast.error(data.message, {
+          position: 'bottom-right'
+        });
+      }
+    }
+    catch (e) {
+      console.error(e);
+    }
   }
 
   const hanldeChange = (e: SyntheticEvent) => {
@@ -52,6 +92,7 @@ const Login = () => {
           />
         </label>
         <input type="submit" value="Log in" className={styles.submit} />
+        <p className={styles.link_text}>Don't have an account? <Link to={'/signup'}>Sign up</Link></p>
       </form>
     </div>
   )
