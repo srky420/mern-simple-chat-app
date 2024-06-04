@@ -39,6 +39,8 @@ const Signup = () => {
     password: false,
     confirmation: false
   });
+  // Processing state
+  const [isProcessing, setIsProcessing] = useState<boolean>(false);
 
   // Check if already logged in
   useEffect(() => {
@@ -60,6 +62,7 @@ const Signup = () => {
       toast.error('All fields are required.', {
         position: 'bottom-right'
       });
+      setIsProcessing(false);
       return;
     }
     if (input.password !== input.confirmation) {
@@ -74,6 +77,7 @@ const Signup = () => {
       return;
     }
 
+    setIsProcessing(true);
     try {
       // Request backend for sign up
       const { data } = await axios.post('http://localhost:3000/signup', input, {
@@ -92,9 +96,11 @@ const Signup = () => {
           position: 'bottom-right'
         });
       }
+      setTimeout(() => setIsProcessing(false), 1500);
     }
     catch (e) {
       console.error(e);
+      setTimeout(() => setIsProcessing(false), 1500);
     }
   }
 
@@ -108,6 +114,9 @@ const Signup = () => {
 
   return (
     <div className={styles.container}>
+      {isProcessing ? 
+      <div className="loading"></div>
+      :
       <form onSubmit={handleSubmit} className={styles.form_container}>
         <h1>Sign up</h1>
         <label htmlFor="username">
@@ -161,6 +170,7 @@ const Signup = () => {
         <input type="submit" value="Sign up" className={styles.submit} />
         <p className={styles.link_text}>Already have an account? <Link to={'/login'}>Log in</Link></p>
       </form>
+      }
     </div>
   )
 }

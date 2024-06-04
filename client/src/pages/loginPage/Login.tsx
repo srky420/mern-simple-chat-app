@@ -24,13 +24,15 @@ const Login = () => {
   // Input state
   const [input, setInput] = useState<Input>({
     email: '',
-    password: ''
+    password: '',
   });
   // Error state
   const [errors, setErrors] = useState<Error>({
     email: false,
     password: false
   });
+  // Processing state
+  const [isProcessing, setIsProcessing] = useState<boolean>(false);
 
   // Check if already logged in
   useEffect(() => {
@@ -53,6 +55,7 @@ const Login = () => {
       return;
     }
 
+    setIsProcessing(true);
     try {
       // Request backend for login
       const { data } = await axios.post('http://localhost:3000/login', input, {
@@ -69,9 +72,11 @@ const Login = () => {
           position: 'bottom-right'
         });
       }
+      setTimeout(() => setIsProcessing(false), 1500);
     }
     catch (e) {
       console.error(e);
+      setTimeout(() => setIsProcessing(false), 1500);
     }
   }
 
@@ -85,6 +90,9 @@ const Login = () => {
 
   return (
     <div className={styles.container}>
+      {isProcessing ?
+      <div className="loading"></div> 
+      : 
       <form onSubmit={handleSubmit} className={styles.form_container}>
         <h1>Log In</h1>
         <label htmlFor="email">
@@ -114,6 +122,7 @@ const Login = () => {
         <input type="submit" value="Log in" className={styles.submit} />
         <p className={styles.link_text}>Don't have an account? <Link to={'/signup'}>Sign up</Link></p>
       </form>
+      }
     </div>
   )
 }

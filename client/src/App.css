@@ -70,3 +70,21 @@ a:hover {
   text-decoration: none;
 }
 
+.loading {
+  width: calc(5rem + 1vw);
+  height: calc(5rem + 1vw);
+  border: 1rem solid var(--grey);
+  border-top: 1rem solid var(--primary);
+  border-radius: 50%;
+  animation: spin 1s infinite ease-in-out;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
