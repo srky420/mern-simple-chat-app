@@ -3,6 +3,7 @@
   display: flex;
   gap: calc(0.5rem + 1vw);
   height: 100vh;
+  animation: fadeIn 0.2s linear;
 }
 
 .sidebar_full {
@@ -96,5 +97,14 @@
 @media (min-width: 768px) {
   .overlay {
     display: none !important;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }

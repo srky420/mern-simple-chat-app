@@ -1,6 +1,7 @@
 import UserModel from "../Models/UserModel";
 import { Request, Response } from "express";
 import createToken from "../util/createToken";
+import emailValidation from "../util/emailValidation";
 
 const bcrypt = require('bcrypt');
 
@@ -14,14 +15,17 @@ export const Signup = async (req: Request, res: Response) => {
     if (!username || !email || !password || !confirmation) {
       return res.json({ message: 'All fields are required.' });
     }
+    if (!emailValidation(email)) {
+      return res.json({ message: 'Invalid email address.' });
+    }
     if (password !== confirmation) {
       return res.json({ message: 'Passwords do not match.' });
     }
 
     // Check if user already exists
-    const existingUser = await UserModel.findOne({ email });
+    const existingUser = await UserModel.findOne({ $or: [ { email }, { username } ] });
     if (existingUser) {
-      return res.json({ message: 'User with this email already exists.' });
+      return res.json({ message: 'User already exists with this email or username.' });
     }
 
     // Create new user
@@ -52,6 +56,10 @@ export const Login = async (req: Request, res: Response) => {
     // Get payload data
     const { email, password } = req.body;
 
+    // Validate email
+    if (!emailValidation(email)) {
+      return res.json({ message: 'Invalid email or password.' })
+    }
     // Check if user exists
     const user = await UserModel.findOne({ email });
     if (!user) {
