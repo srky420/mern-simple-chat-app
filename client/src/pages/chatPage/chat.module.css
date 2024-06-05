@@ -1,6 +1,8 @@
 .container {
   padding: calc(0.5rem + 1vw);
   display: flex;
+  justify-content: center;
+  align-items: center;
   gap: calc(0.5rem + 1vw);
   height: 100vh;
   animation: fadeIn 0.2s linear;

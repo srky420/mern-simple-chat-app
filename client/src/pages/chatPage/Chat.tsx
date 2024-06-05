@@ -5,6 +5,7 @@ import Sidebar from './components/Sidebar';
 import LeaveRoom from './components/LeaveRoom';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
 
 interface Props {
   username: string;
@@ -15,10 +16,17 @@ interface Props {
 }
 
 const Chat = ({ username, room, socket, setUsername, setRoom }: Props) => {
-
+  
+  const [cookies, setCookie, removeCookie] = useCookies(['token']);
   const navigate = useNavigate();
 
   useEffect(() => {
+
+    if (!cookies.token) {
+      localStorage.removeItem('chat_room_data');
+      navigate('/login');
+    }
+
     // Check localStorage for chat room data
     if (localStorage.getItem('chat_room_data')) {
       if (username === '' || room === '') {
@@ -32,7 +40,7 @@ const Chat = ({ username, room, socket, setUsername, setRoom }: Props) => {
     else {
       navigate('/', { replace: true });
     }
-  }, []);
+  }, [cookies]);
 
   return (
     <div className={styles.container}>
@@ -41,7 +49,7 @@ const Chat = ({ username, room, socket, setUsername, setRoom }: Props) => {
         <LeaveRoom username={username} room={room} socket={socket} />
       </div>
       <div className={styles.chatbox}>
-        <Messages socket={socket} />
+        <Messages socket={socket} username={username} />
         <SendMessage socket={socket} username={username} room={room} />
       </div>
       <input type="checkbox" onChange={() => console.log('changed')} id={styles.sidebar_toggle} />

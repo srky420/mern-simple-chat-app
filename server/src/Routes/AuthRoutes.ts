@@ -4,10 +4,10 @@ import { UserVerification } from "../Middlewares/AuthMiddleware";
 import { Home } from "../Controllers/HomeController";
 
 // Define auth routes using express router
-const router = Router();
+const authRouter = Router();
 
-router.post('/login', Login);
-router.post('/signup', Signup);
-router.post('/', UserVerification, Home);
+authRouter.post('/login', Login);
+authRouter.post('/signup', Signup);
+authRouter.post('/', UserVerification, Home);
 
-export default router;
+export default authRouter;

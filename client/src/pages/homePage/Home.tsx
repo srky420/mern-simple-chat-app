@@ -3,7 +3,7 @@ import styles from "./home.module.css";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 interface Props {
   username: string;
@@ -16,7 +16,7 @@ interface Props {
 const Home = ({ username, room, setUsername, setRoom, socket }: Props) => {
   
   // React coookies hook
-  const [cookies, setCookie, removeCookie] = useCookies(['token'])
+  const [cookies, setCookie, removeCookie] = useCookies(['token']);
   
   // Navigation hook
   const navigate = useNavigate();
@@ -27,6 +27,11 @@ const Home = ({ username, room, setUsername, setRoom, socket }: Props) => {
   // Ensure user logged in or not
   useEffect(() => {
     async function verifyUser() {
+      if (!cookies.token) {
+        localStorage.removeItem('chat_room_data');
+        navigate('/login');
+      }
+      
       // Request backend for index data
       const { data } = await axios.post('http://localhost:3000/', {}, {
         withCredentials: true

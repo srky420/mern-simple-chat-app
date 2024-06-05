@@ -5,7 +5,8 @@ import { Server } from "socket.io";
 import leaveRoom from "./util/leaveRoom";
 import mongoose from "mongoose";
 import { configDotenv } from "dotenv"; 
-import router from "./Routes/AuthRoutes";
+import authRouter from "./Routes/AuthRoutes";
+import MessageModel from "./Models/MessageModel";
 
 configDotenv();
 const app: Express = express();
@@ -19,7 +20,7 @@ app.use(cors({
 }));
 app.use(express.json());
 app.use(cookieParser());
-app.use('/', router);
+app.use('/', authRouter);
 
 // Create HTTP server
 const server: any = createServer(app);
@@ -75,12 +76,25 @@ io.on('connection', (socket: any) => {
     socket.to(chatRoom).emit('chatroom_users', roomUsersList);
     socket.emit('chatroom_users', roomUsersList);
     console.log(userList);
+
+    // Load messages from DB
+    MessageModel.find({ room })
+      .sort('__createdtime__')
+      .limit(100)
+      .then(messages => {
+        socket.emit('last_100_messages', JSON.stringify(messages));
+      })
+      .catch(err => console.error(err));
   });
 
   // Send message event
   socket.on('send_message', (data: any) => {
     const { username, message, room, __createdtime__ } = data;
     io.in(room).emit('receive_message', data);
+    // Create new message in DB
+    MessageModel.create({ username, message, room, __createdtime__ })
+      .then(res => console.log(res))
+      .catch(err => console.error(err));
   });
 
   // Leave room event

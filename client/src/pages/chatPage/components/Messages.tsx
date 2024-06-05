@@ -2,10 +2,11 @@ import { useEffect, useRef, useState } from "react";
 import styles from "./messages.module.css"
 
 interface Props {
-  socket: any,
+  socket: any;
+  username: string;
 }
 
-const Messages = ({ socket }: Props) => {
+const Messages = ({ socket, username }: Props) => {
 
   const msgContainer = useRef<any>(null);
   const [messagesReceived, setMessagesReceived] = useState<object[]>([]);
@@ -31,6 +32,17 @@ const Messages = ({ socket }: Props) => {
     return () => socket.off('receive_message');
   }, [socket]);
 
+  // Get last 100 messages
+  useEffect(() => {
+    socket.on('last_100_messages', (data: any) => {
+      const messages = JSON.parse(data);
+      setMessagesReceived(state => [...messages, ...state]);
+    });
+
+    // Clean up
+    return () => socket.off('last_100_messages');
+  }, [socket]);
+
   // Scroll to bottom on new message
   useEffect(() => {
     msgContainer.current.scrollTop = msgContainer.current.scrollHeight;
@@ -47,7 +59,7 @@ const Messages = ({ socket }: Props) => {
       {messagesReceived.map((msg: any, i) => (
         <div 
           className={
-            msg.id === socket.id ? 
+            msg.username === username ? 
             styles.message_box_self :
             msg.id === 'chat_bot' ?
             styles.message_box_chatbot : 
