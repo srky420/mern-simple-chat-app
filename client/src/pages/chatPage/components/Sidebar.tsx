@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 import styles from "./sidebar.module.css";
 
 interface Props {
-  room: string,
-  socket: any,
+  username: string;
+  room: string;
+  socket: any;
 }
 
-const Sidebar = ({ room, socket }: Props) => {
+const Sidebar = ({ username, room, socket }: Props) => {
 
   // Users list
   const [usersList, setUsersList] = useState<object[]>([]);
@@ -29,7 +30,7 @@ const Sidebar = ({ room, socket }: Props) => {
           {usersList.map((user: any, i) => (
             <li key={'user' + i}>
               <i className="fa-solid fa-circle"></i>
-              <span>{user.username}</span>
+              <span>{user.username} {user.username === username && <small style={ {color: 'var(--primary)'} }>You</small>}</span>
             </li>
           ))}
         </ul>

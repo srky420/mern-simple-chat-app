@@ -95,7 +95,8 @@ const Home = ({ username, room, setUsername, setRoom, socket }: Props) => {
             id="username" 
             placeholder="Username..." 
             value={username} 
-            disabled
+            disabled 
+            readOnly
           />
         </label>
         <label htmlFor="room">

@@ -45,7 +45,7 @@ const Chat = ({ username, room, socket, setUsername, setRoom }: Props) => {
   return (
     <div className={styles.container}>
       <div className={styles.sidebar_full}>
-        <Sidebar room={room} socket={socket} />
+        <Sidebar username={username} room={room} socket={socket} />
         <LeaveRoom username={username} room={room} socket={socket} />
       </div>
       <div className={styles.chatbox}>
@@ -58,7 +58,7 @@ const Chat = ({ username, room, socket, setUsername, setRoom }: Props) => {
         <i className="fa-solid fa-circle-chevron-right"></i>
       </label>
       <aside className={styles.sidebar_mobile}>
-        <Sidebar room={room} socket={socket} />
+        <Sidebar username={username} room={room} socket={socket} />
         <LeaveRoom username={username} room={room} socket={socket} />
       </aside>
     </div>
