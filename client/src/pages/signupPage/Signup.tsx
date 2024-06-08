@@ -110,6 +110,10 @@ const Signup = () => {
       ...state,
       [name]: value
     }));
+    setErrors((state) => ({
+      ...state,
+      [name]: false
+    }));
   }
 
   return (

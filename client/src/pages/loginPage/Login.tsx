@@ -86,6 +86,10 @@ const Login = () => {
       ...state,
       [name]: value
     }));
+    setErrors((state) => ({
+      ...state,
+      [name]: false
+    }));
   }
 
   return (
