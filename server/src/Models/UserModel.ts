@@ -1,4 +1,7 @@
 import { Schema, model } from "mongoose";
+import { createAvatar } from "@dicebear/core";
+import { bottts } from "@dicebear/collection";
+import axios from "axios";
 
 const bcrypt = require('bcrypt');
 
@@ -42,6 +45,8 @@ const userSchema = new Schema<IUser>({
 // Pre-save password hash
 userSchema.pre('save', async function() {
   this.password = await bcrypt.hash(this.password, 12);
+  const { data } = await axios.get(`https://api.dicebear.com/8.x/bottts/json?seed=${this.username}`);
+  this.avatar = data.svg;
 });
 
 // Define User model
