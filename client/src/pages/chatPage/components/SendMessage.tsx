@@ -2,12 +2,12 @@ import { SyntheticEvent, useState } from "react";
 import styles from "./sendmessage.module.css";
 
 interface Props {
-  username: string;
+  user: any;
   room: string;
   socket: any;
 }
 
-const SendMessage = ({ username, room, socket }: Props) => {
+const SendMessage = ({ user, room, socket }: Props) => {
 
   const [message, setMessage] = useState('');
 
@@ -16,8 +16,8 @@ const SendMessage = ({ username, room, socket }: Props) => {
     // Emit message to the server with data
     const __createdtime__ = Date.now();
     if (message !== '') {
-      console.log('Username: ' + username + 'Room: ' + room);
-      socket.emit('send_message', { id: socket.id, username, message, room, __createdtime__ });
+      console.log('Username: ' + user.username + 'Room: ' + room);
+      socket.emit('send_message', { id: socket.id, ...user, message, room, __createdtime__ });
       setMessage('');
     }
   }

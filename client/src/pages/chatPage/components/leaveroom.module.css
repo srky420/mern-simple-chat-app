@@ -2,6 +2,7 @@
   position: absolute;
   bottom: 0;
   width: 100%;
+  border-radius: 1rem;
   padding: calc(0.1rem + 1vw);
   background-color: var(--grey);
 }

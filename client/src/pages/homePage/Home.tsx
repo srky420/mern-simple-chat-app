@@ -6,23 +6,20 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 interface Props {
-  username: string;
+  user: any;
   room: string;
-  setUsername: (val: string) => void;
+  setUser: (obj: object) => void;
   setRoom: (val: string) => void;
   socket: any;
 }
 
-const Home = ({ username, room, setUsername, setRoom, socket }: Props) => {
+const Home = ({ user, room, setUser, setRoom, socket }: Props) => {
   
   // React coookies hook
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
   
   // Navigation hook
   const navigate = useNavigate();
-
-  // Reference to input fields
-  const roomField = useRef<any>(null);
 
   // Ensure user logged in or not
   useEffect(() => {
@@ -42,7 +39,7 @@ const Home = ({ username, room, setUsername, setRoom, socket }: Props) => {
         toast.success(`Welcome!, ${user.username}`, {
           position: 'bottom-right'
         });
-        setUsername(user.username);
+        setUser(user);
         console.log(user);
       }
       else {
@@ -65,21 +62,17 @@ const Home = ({ username, room, setUsername, setRoom, socket }: Props) => {
     e.preventDefault();
 
     // Check username and room not empty
-    if (username === '' || room === '') {
-      !room ? 
-        roomField.current.classList.add('error') :
-        roomField.current.classList.remove('error');
+    if (room === '') {
       return;
     }
 
     // Emit socket event join_room, and redirect
-    socket.emit('join_room', { username, room });
-    localStorage.setItem('chat_room_data', JSON.stringify({ username, room }));
+    socket.emit('join_room', { user, room });
+    localStorage.setItem('chat_room_data', JSON.stringify({ user, room }));
     navigate('/chat', { replace: true });
 
     // Reset input states
-    console.log('Username: ' + username + ', Room: ' + room);
-    roomField.current.classList.remove('error');
+    console.log('Username: ' + user.username + ', Room: ' + room);
   };
 
   return (
@@ -94,7 +87,7 @@ const Home = ({ username, room, setUsername, setRoom, socket }: Props) => {
             name="username" 
             id="username" 
             placeholder="Username..." 
-            value={username} 
+            value={user.username} 
             disabled 
             readOnly
           />
@@ -105,8 +98,7 @@ const Home = ({ username, room, setUsername, setRoom, socket }: Props) => {
             className={styles.room}
             name="room" id="room" 
             value={room} 
-            onChange={(e) => setRoom(e.target.value)} 
-            ref={roomField}>
+            onChange={(e) => setRoom(e.target.value)}>
             <option value="" selected disabled hidden>Choose...</option>
             <option value="frontend">Frontend</option>
             <option value="backend">Backend</option>

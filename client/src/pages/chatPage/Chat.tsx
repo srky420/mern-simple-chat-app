@@ -8,14 +8,14 @@ import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 
 interface Props {
-  username: string;
+  user: any;
   room: string;
-  setUsername: (val: string) => void;
+  setUser: (val: object) => void;
   setRoom: (val: string) => void;
   socket: any;
 }
 
-const Chat = ({ username, room, socket, setUsername, setRoom }: Props) => {
+const Chat = ({ user, room, socket, setUser, setRoom }: Props) => {
   
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
   const navigate = useNavigate();
@@ -29,11 +29,11 @@ const Chat = ({ username, room, socket, setUsername, setRoom }: Props) => {
 
     // Check localStorage for chat room data
     if (localStorage.getItem('chat_room_data')) {
-      if (username === '' || room === '') {
+      if (room === '') {
         let data: any = localStorage.getItem('chat_room_data');
-        const { username, room } = JSON.parse(data);
-        socket.emit('join_room', { username, room });
-        setUsername(username);
+        const { user, room } = JSON.parse(data);
+        socket.emit('join_room', { user, room });
+        setUser(user);
         setRoom(room);
       }
     }
@@ -45,12 +45,12 @@ const Chat = ({ username, room, socket, setUsername, setRoom }: Props) => {
   return (
     <div className={styles.container}>
       <div className={styles.sidebar_full}>
-        <Sidebar username={username} room={room} socket={socket} />
-        <LeaveRoom username={username} room={room} socket={socket} />
+        <Sidebar user={user} room={room} socket={socket} />
+        <LeaveRoom user={user} room={room} socket={socket} />
       </div>
       <div className={styles.chatbox}>
-        <Messages socket={socket} username={username} />
-        <SendMessage socket={socket} username={username} room={room} />
+        <Messages socket={socket} user={user} />
+        <SendMessage socket={socket} user={user} room={room} />
       </div>
       <input type="checkbox" onChange={() => console.log('changed')} id={styles.sidebar_toggle} />
       <div className={styles.overlay}></div>
@@ -58,8 +58,8 @@ const Chat = ({ username, room, socket, setUsername, setRoom }: Props) => {
         <i className="fa-solid fa-circle-chevron-right"></i>
       </label>
       <aside className={styles.sidebar_mobile}>
-        <Sidebar username={username} room={room} socket={socket} />
-        <LeaveRoom username={username} room={room} socket={socket} />
+        <Sidebar user={user} room={room} socket={socket} />
+        <LeaveRoom user={user} room={room} socket={socket} />
       </aside>
     </div>
   );

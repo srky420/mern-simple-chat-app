@@ -45,8 +45,8 @@ const userSchema = new Schema<IUser>({
 // Pre-save password hash
 userSchema.pre('save', async function() {
   this.password = await bcrypt.hash(this.password, 12);
-  const { data } = await axios.get(`https://api.dicebear.com/8.x/bottts/json?seed=${this.username}`);
-  this.avatar = data.svg;
+  // const { data } = await axios.get(`https://api.dicebear.com/8.x/bottts/json?seed=${this.username}`);
+  // this.avatar = data.svg;
 });
 
 // Define User model

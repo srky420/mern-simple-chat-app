@@ -46,7 +46,7 @@ io.on('connection', (socket: any) => {
   // Our custom event 'join_room' called when
   // user joins a room, with payload data
   socket.on('join_room', (data: any) => {
-    const { username, room } = data;
+    const { user, room } = data;
     socket.join(room); // Join the user to room
 
     chatRoom = room;
@@ -55,7 +55,7 @@ io.on('connection', (socket: any) => {
     // Emit a message to all users for this room
     socket.to(room).emit('receive_message', {
       id: 'chat_bot',
-      message: `${username} has joined the chat!`,
+      message: `${user.username} has joined the chat!`,
       username: CHAT_BOT,
       __createdtime__,
     });
@@ -64,14 +64,15 @@ io.on('connection', (socket: any) => {
     socket.emit('receive_message', {
       id: 'chat_bot',
       username: CHAT_BOT,
-      message: `Welcome to the chat, ${username}!`,
+      message: `Welcome to the chat, ${user.username}!`,
+      avatar: '',
       __createdtime__,
     });
 
     // Save new user to the room and
     // emit an event for all users in that room
     // so they can get new list of users
-    userList.push({ id: socket.id, username, room });
+    userList.push({ id: socket.id, ...user, room });
     let roomUsersList = userList.filter(user => user.room === chatRoom);
     socket.to(chatRoom).emit('chatroom_users', roomUsersList);
     socket.emit('chatroom_users', roomUsersList);
@@ -99,7 +100,7 @@ io.on('connection', (socket: any) => {
 
   // Leave room event
   socket.on('leave_room', (data: any) => {
-    const { username, room } = data;
+    const { user, room } = data;
     // Leave room
     socket.leave(room);
     const __createdtime__ = Date.now();
@@ -112,7 +113,7 @@ io.on('connection', (socket: any) => {
     socket.to(room).emit('receive_message', {
       id: 'chat_bot',
       username: CHAT_BOT,
-      message: `${username} has left the chat!`,
+      message: `${user.username} has left the chat!`,
       __createdtime__
     });
   });

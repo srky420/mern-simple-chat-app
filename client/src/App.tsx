@@ -12,7 +12,7 @@ import { ToastContainer } from 'react-toastify'
 const socket = io('http://localhost:3000');
 
 function App() {
-  const [username, setUsername] = useState<string>('');
+  const [user, setUser] = useState<any>({});
   const [room, setRoom] = useState<string>('');
 
   return (
@@ -21,9 +21,9 @@ function App() {
         <Routes>
           <Route path='/' element={
             <Home 
-              username={username} 
+              user={user} 
               room={room} 
-              setUsername={setUsername} 
+              setUser={setUser} 
               setRoom={setRoom} 
               socket={socket}
             />} 
@@ -31,9 +31,9 @@ function App() {
           <Route path='/chat' element={
             <Chat 
               socket={socket} 
-              username={username} 
+              user={user} 
               room={room} 
-              setUsername={setUsername} 
+              setUser={setUser} 
               setRoom={setRoom} 
             />} 
           />

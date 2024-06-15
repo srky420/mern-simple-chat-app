@@ -3,6 +3,7 @@ import { Schema, model } from "mongoose";
 // Define message interface
 interface IMessage {
   username: string;
+  avatar: string;
   message: string;
   room: string;
   __createdtime__: Date;
@@ -14,6 +15,10 @@ const messageSchema = new Schema<IMessage>({
     type: String,
     required: true,
     maxlength: 50
+  },
+  avatar: {
+    type: String,
+    required: false
   },
   message: {
     type: String,

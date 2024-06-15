@@ -3,10 +3,10 @@ import styles from "./messages.module.css"
 
 interface Props {
   socket: any;
-  username: string;
+  user: any;
 }
 
-const Messages = ({ socket, username }: Props) => {
+const Messages = ({ socket, user }: Props) => {
 
   const msgContainer = useRef<any>(null);
   const [messagesReceived, setMessagesReceived] = useState<object[]>([]);
@@ -16,14 +16,9 @@ const Messages = ({ socket, username }: Props) => {
     socket.on('receive_message', (data: any) => {
       console.log(data);
       setMessagesReceived(prevState => [
-          ...prevState,
-          {
-            id: data.id,
-            message: data.message,
-            username: data.username,
-            __createdtime__: data.__createdtime__,
-          }
-        ]);
+        ...prevState,
+        data
+      ]);
 
       return () => socket.off('receive_message');
     }, [socket]);
@@ -59,7 +54,7 @@ const Messages = ({ socket, username }: Props) => {
       {messagesReceived.map((msg: any, i) => (
         <div 
           className={
-            msg.username === username ? 
+            msg.username === user.username ? 
             styles.message_box_self :
             msg.id === 'chat_bot' ?
             styles.message_box_chatbot : 
@@ -67,11 +62,11 @@ const Messages = ({ socket, username }: Props) => {
           key={'msg' + i}
         >
           <div className={styles.message_header}>
+            <small className={styles.message_date}>{parseDate(msg.__createdtime__)}</small>
             <h3>
               {msg.id === 'chat_bot' && <i className="fa-solid fa-robot"></i>}
               {msg.username}
             </h3>
-            <p>{parseDate(msg.__createdtime__)}</p>
           </div>
           <div className={styles.message_body}>
             {msg.message}

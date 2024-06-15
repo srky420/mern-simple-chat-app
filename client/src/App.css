@@ -14,7 +14,10 @@ html {
 
 body {
   font-family: var(--system-ui);
-  background-color: var(--dark);
+  background-image: url('./assets/background-01.svg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 }
 
 input,

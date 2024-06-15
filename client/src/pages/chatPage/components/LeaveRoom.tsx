@@ -2,18 +2,18 @@ import { useNavigate } from "react-router-dom";
 import styles from "./leaveroom.module.css";
 
 interface Props {
-  username: string,
+  user: any,
   room: string,
   socket: any,
 }
 
-const LeaveRoom = ({ username, room, socket }: Props) => {
+const LeaveRoom = ({ user, room, socket }: Props) => {
 
   const navigate = useNavigate();
 
   const handleClick = () => {
     localStorage.removeItem('chat_room_data');
-    socket.emit('leave_room', { username, room });
+    socket.emit('leave_room', { user, room });
     navigate('/', { replace: true });
   }
 

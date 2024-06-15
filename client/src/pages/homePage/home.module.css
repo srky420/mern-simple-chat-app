@@ -12,6 +12,7 @@
 .form_container {
   padding: 3rem;
   border-radius: 1rem;
+  box-shadow: 0 0 10px 0 rgb(30, 30, 30);
   width: calc(300px + 5vw);
   background-color: var(--grey);
   animation: fadeIn 0.2s linear;
