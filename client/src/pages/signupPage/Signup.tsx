@@ -3,41 +3,40 @@ import styles from "./signup.module.css";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 import { useCookies } from "react-cookie";
 
 interface Input {
-  username: string,
-  email: string,
-  password: string,
-  confirmation: string
+  username: string;
+  email: string;
+  password: string;
+  confirmation: string;
 }
 
 interface Error {
-  username: boolean,
-  email: boolean,
-  password: boolean,
-  confirmation: boolean
+  username: boolean;
+  email: boolean;
+  password: boolean;
+  confirmation: boolean;
 }
 
 const Signup = () => {
-
   const navigate = useNavigate();
-  const [cookies, setCookie, removeCookie] = useCookies(['token']);
+  const [cookies, setCookie, removeCookie] = useCookies(["token"]);
 
   // Input state
   const [input, setInput] = useState<Input>({
-    username: '',
-    email: '',
-    password: '',
-    confirmation: ''
+    username: "",
+    email: "",
+    password: "",
+    confirmation: "",
   });
   // Error state
   const [errors, setErrors] = useState<Error>({
     username: false,
     email: false,
     password: false,
-    confirmation: false
+    confirmation: false,
   });
   // Processing state
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
@@ -45,7 +44,7 @@ const Signup = () => {
   // Check if already logged in
   useEffect(() => {
     if (cookies.token) {
-      return navigate('/');
+      return navigate("/");
     }
   }, []);
 
@@ -53,14 +52,19 @@ const Signup = () => {
     e.preventDefault();
     // Check valid input
     setErrors({
-      username: input.username === '',
-      email: input.email === '',
-      password: input.password === '',
-      confirmation: input.confirmation === ''
+      username: input.username === "",
+      email: input.email === "",
+      password: input.password === "",
+      confirmation: input.confirmation === "",
     });
-    if (!input.username || !input.email || !input.password || !input.confirmation) {
-      toast.error('All fields are required.', {
-        position: 'bottom-right'
+    if (
+      !input.username ||
+      !input.email ||
+      !input.password ||
+      !input.confirmation
+    ) {
+      toast.error("All fields are required.", {
+        position: "bottom-right",
       });
       setIsProcessing(false);
       return;
@@ -69,10 +73,10 @@ const Signup = () => {
       setErrors((state) => ({
         ...state,
         password: true,
-        confirmation: true
+        confirmation: true,
       }));
-      toast.error('Passwords do not match.', {
-        position: 'bottom-right'
+      toast.error("Passwords do not match.", {
+        position: "bottom-right",
       });
       return;
     }
@@ -80,103 +84,107 @@ const Signup = () => {
     setIsProcessing(true);
     try {
       // Request backend for sign up
-      const { data } = await axios.post('http://localhost:3000/signup', input, {
-        withCredentials: true
+      const { data } = await axios.post("http://localhost:3000/signup", input, {
+        withCredentials: true,
       });
 
       // If user signed up succesfully
       if (data.success) {
         toast.success(data.message, {
-          position: 'bottom-right'
+          position: "bottom-right",
         });
-        navigate('/', { replace: true });
-      }
-      else {
+        navigate("/", { replace: true });
+      } else {
         toast.error(data.message, {
-          position: 'bottom-right'
+          position: "bottom-right",
         });
       }
       setTimeout(() => setIsProcessing(false), 1500);
-    }
-    catch (e) {
+    } catch (e) {
       console.error(e);
       setTimeout(() => setIsProcessing(false), 1500);
     }
-  }
+  };
 
   const hanldeChange = (e: SyntheticEvent) => {
     const { name, value } = e.target as HTMLInputElement;
     setInput((state) => ({
       ...state,
-      [name]: value
+      [name]: value,
     }));
     setErrors((state) => ({
       ...state,
-      [name]: false
+      [name]: false,
     }));
-  }
+  };
 
+  // If request processing
+  if (isProcessing)
+    return (
+      <div className={styles.container}>
+        <div className="loading"></div>
+      </div>
+    );
+  // Otherwise
   return (
     <div className={styles.container}>
-      {isProcessing ? 
-      <div className="loading"></div>
-      :
       <form onSubmit={handleSubmit} className={styles.form_container}>
         <h1>Sign up</h1>
         <label htmlFor="username">
           Enter Username:
-          <input 
+          <input
             className={errors.username ? "error" : ""}
-            type="text" 
-            name="username" 
-            id="username" 
-            placeholder="Username..." 
-            value={input.username} 
-            onChange={hanldeChange} 
+            type="text"
+            name="username"
+            id="username"
+            placeholder="Username..."
+            value={input.username}
+            onChange={hanldeChange}
           />
         </label>
         <label htmlFor="email">
           Enter Email Address:
-          <input 
+          <input
             className={errors.email ? "error" : ""}
-            type="email" 
-            name="email" 
-            id="email" 
-            placeholder="Email Address..." 
-            value={input.email} 
-            onChange={hanldeChange} 
+            type="email"
+            name="email"
+            id="email"
+            placeholder="Email Address..."
+            value={input.email}
+            onChange={hanldeChange}
           />
         </label>
         <label htmlFor="password">
           Enter Password:
-          <input 
+          <input
             className={errors.password ? "error" : ""}
-            type="password" 
-            name="password" 
-            id="password" 
-            placeholder="Password..." 
-            value={input.password} 
-            onChange={hanldeChange} 
+            type="password"
+            name="password"
+            id="password"
+            placeholder="Password..."
+            value={input.password}
+            onChange={hanldeChange}
           />
         </label>
         <label htmlFor="confirmation">
           Enter Confirmation:
-          <input 
+          <input
             className={errors.confirmation ? "error" : ""}
-            type="password" 
-            name="confirmation" 
-            id="confirmation" 
-            placeholder="Confirm Password..." 
-            value={input.confirmation} 
-            onChange={hanldeChange} 
+            type="password"
+            name="confirmation"
+            id="confirmation"
+            placeholder="Confirm Password..."
+            value={input.confirmation}
+            onChange={hanldeChange}
           />
         </label>
         <input type="submit" value="Sign up" className={styles.submit} />
-        <p className={styles.link_text}>Already have an account? <Link to={'/login'}>Log in</Link></p>
+        <p className={styles.link_text}>
+          Already have an account? <Link to={"/login"}>Log in</Link>
+        </p>
       </form>
-      }
     </div>
-  )
-}
+  );
+};
 
-export default Signup
+export default Signup;

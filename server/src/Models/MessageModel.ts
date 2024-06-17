@@ -14,29 +14,28 @@ const messageSchema = new Schema<IMessage>({
   username: {
     type: String,
     required: true,
-    maxlength: 50
+    maxlength: 50,
   },
   avatar: {
     type: String,
-    required: false
+    required: false,
   },
   message: {
     type: String,
     required: true,
-    maxlength: 500
+    maxlength: 500,
   },
   room: {
     type: String,
     required: true,
-    maxlength: 50
+    maxlength: 50,
   },
   __createdtime__: {
     type: Date,
-    default: Date.now()
-  }
+    default: Date.now(),
+  },
 });
 
 // Create model
-const MessageModel = model('Message', messageSchema);
+const MessageModel = model("Message", messageSchema);
 export default MessageModel;
-
