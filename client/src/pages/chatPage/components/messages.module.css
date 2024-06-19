@@ -6,6 +6,8 @@
 }
 
 .message_box {
+  display: flex;
+  gap: 1rem;
   padding: calc(0.5rem + 1vw);
   background-color: var(--dark);
   border-radius: 1rem;
@@ -17,18 +19,22 @@
 }
 
 .message_box_self {
+  display: flex;
+  gap: 1rem;
   background-color: var(--primary);
   margin-left: auto;
   padding: calc(0.5rem + 1vw);
   border-radius: 1rem;
   color: var(--light);
   margin-bottom: 1rem;
-  width: calc(15rem + 15vw);
+  width: calc(20rem + 15vw);
   word-wrap: break-word;
   border-top-right-radius: 0;
 }
 
 .message_box_chatbot {
+  display: flex;
+  gap: 1rem;
   background-color: var(--dark);
   padding: calc(0.5rem + 1vw);
   border-radius: 1rem;
@@ -40,7 +46,9 @@
 }
 
 .message_header {
-  margin-bottom: 1rem;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
 }
 
 .message_header h3 {
@@ -61,4 +69,11 @@
 
 .message_header h3 i {
   margin-right: 0.5rem;
+}
+
+.avatar {
+  width: 3rem;
+  height: 3rem;
+  overflow: hidden;
+  border-radius: 50%;
 }

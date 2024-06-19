@@ -5,6 +5,8 @@ import { useCookies } from "react-cookie";
 import axios from "axios";
 import { toast } from "react-toastify";
 
+const SERVER_URL = import.meta.env.VITE_SERVER_URL;
+
 interface Props {
   user: any;
   room: string;
@@ -30,7 +32,7 @@ const Home = ({ user, room, setUser, setRoom, socket }: Props) => {
 
       // Request backend for index data
       const { data } = await axios.post(
-        "http://localhost:3000/",
+        `${SERVER_URL}/`,
         {},
         {
           withCredentials: true,
@@ -45,6 +47,8 @@ const Home = ({ user, room, setUser, setRoom, socket }: Props) => {
         setUser(user);
         console.log(user);
       } else {
+        setUser({});
+        setRoom('');
         return removeCookie("token"), navigate("/login", { replace: true });
       }
     }
@@ -53,6 +57,8 @@ const Home = ({ user, room, setUser, setRoom, socket }: Props) => {
 
   const handleLogout = () => {
     removeCookie("token");
+    setUser({});
+    setRoom('');
     navigate("/", { replace: true });
     toast.success("You have logged out.", {
       position: "bottom-right",
@@ -80,23 +86,14 @@ const Home = ({ user, room, setUser, setRoom, socket }: Props) => {
     <div className={styles.container}>
       <form onSubmit={handleSubmit} className={styles.form_container}>
         <h1>Join a Room</h1>
-        <label htmlFor="username">
-          Username:
-          <input
-            className={styles.username}
-            type="text"
-            name="username"
-            id="username"
-            placeholder="Username..."
-            value={user.username}
-            disabled
-            readOnly
-          />
-        </label>
-        <label htmlFor="room">
+        <div className={styles.avatar}>
+          <img src={`${SERVER_URL}${user.avatar}`} alt="avatar" />
+        </div>
+        <h3 className={styles.username}>{user.username}</h3>
+        <p className={styles.email}>{user.email}</p>
+        <label htmlFor="room" className={styles.room}>
           Choose Room:
           <select
-            className={styles.room}
             name="room"
             id="room"
             value={room}

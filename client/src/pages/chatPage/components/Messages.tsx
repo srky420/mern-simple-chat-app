@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import styles from "./messages.module.css";
 
+const SERVER_URL = import.meta.env.VITE_SERVER_URL;
+
 interface Props {
   socket: any;
   user: any;
@@ -12,16 +14,10 @@ const Messages = ({ socket, user }: Props) => {
 
   // Updating messages whenever new message received
   useEffect(() => {
-    socket.on(
-      "receive_message",
-      (data: any) => {
-        console.log(data);
-        setMessagesReceived((prevState) => [...prevState, data]);
-
-        return () => socket.off("receive_message");
-      },
-      [socket]
-    );
+    socket.on("receive_message", (data: any) => {
+      console.log(data);
+      setMessagesReceived((prevState) => [...prevState, data]);
+    });
 
     // Clean up
     return () => socket.off("receive_message");
@@ -62,16 +58,23 @@ const Messages = ({ socket, user }: Props) => {
           }
           key={"msg" + i}
         >
-          <div className={styles.message_header}>
-            <small className={styles.message_date}>
-              {parseDate(msg.__createdtime__)}
-            </small>
-            <h3>
-              {msg.id === "chat_bot" && <i className="fa-solid fa-robot"></i>}
-              {msg.username}
-            </h3>
+          {msg.id !== "chat_bot" && (
+            <div className={styles.avatar}>
+              <img src={`${SERVER_URL}${msg.avatar}`} alt="avatar" />
+            </div>
+          )}
+          <div>
+            <div className={styles.message_header}>
+              <h3>
+                {msg.id === "chat_bot" && <i className="fa-solid fa-robot"></i>}
+                {msg.username}
+              </h3>
+              <small className={styles.message_date}>
+                {parseDate(msg.__createdtime__)}
+              </small>
+            </div>
+            <div className={styles.message_body}>{msg.message}</div>
           </div>
-          <div className={styles.message_body}>{msg.message}</div>
         </div>
       ))}
     </div>

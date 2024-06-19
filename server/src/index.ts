@@ -1,4 +1,4 @@
-import express, { Express, Request, Response } from "express";
+import express, { Express } from "express";
 import cors from "cors";
 import { createServer } from "http";
 import { Server } from "socket.io";
@@ -60,6 +60,7 @@ io.on("connection", (socket: any) => {
       id: "chat_bot",
       message: `${user.username} has joined the chat!`,
       username: CHAT_BOT,
+      avatar: "",
       __createdtime__,
     });
 
@@ -93,10 +94,10 @@ io.on("connection", (socket: any) => {
 
   // Send message event
   socket.on("send_message", (data: any) => {
-    const { username, message, room, __createdtime__ } = data;
+    const { username, message, room, avatar, __createdtime__ } = data;
     io.in(room).emit("receive_message", data);
     // Create new message in DB
-    MessageModel.create({ username, message, room, __createdtime__ })
+    MessageModel.create({ username, message, room, avatar, __createdtime__ })
       .then((res) => console.log(res))
       .catch((err) => console.error(err));
   });

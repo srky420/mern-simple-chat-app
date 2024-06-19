@@ -23,10 +23,18 @@
   margin-bottom: 1.5rem;
 }
 
-.username,
 .room {
+  display: block;
+  margin: 1rem 0;
+}
+
+.room select {
   width: 100%;
-  margin-bottom: 1rem;
+}
+
+.username,
+.email {
+  text-align: center;
 }
 
 .submit {
@@ -36,6 +44,18 @@
 
 .logout {
   margin-top: 2rem;
+}
+
+.avatar {
+  width: 3rem;
+  height: 3rem;
+  overflow: hidden;
+  border-radius: 50%;
+  margin: 0 auto;
+}
+
+.avatar img {
+  object-fit: contain;
 }
 
 @keyframes fadeIn {

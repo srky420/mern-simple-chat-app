@@ -9,6 +9,6 @@ const TOKEN_KEY: any = process.env.TOKEN_KEY;
 // Generate jwt token
 export default function createToken(id: Types.ObjectId) {
   return sign({ id }, TOKEN_KEY, {
-    expiresIn: 3 * 24 * 60 * 60
+    expiresIn: 3 * 24 * 60 * 60,
   });
 }

@@ -6,6 +6,8 @@ import { Link, useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import { useCookies } from "react-cookie";
 
+const SERVER_URL = import.meta.env.VITE_SERVER_URL;
+
 interface Input {
   username: string;
   email: string;
@@ -84,7 +86,7 @@ const Signup = () => {
     setIsProcessing(true);
     try {
       // Request backend for sign up
-      const { data } = await axios.post("http://localhost:3000/signup", input, {
+      const { data } = await axios.post(`${SERVER_URL}/signup`, input, {
         withCredentials: true,
       });
 

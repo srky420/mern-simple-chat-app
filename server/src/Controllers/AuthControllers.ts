@@ -2,7 +2,6 @@ import UserModel from "../Models/UserModel";
 import { Request, Response } from "express";
 import createToken from "../util/createToken";
 import emailValidation from "../util/emailValidation";
-import axios from "axios";
 
 const bcrypt = require("bcrypt");
 

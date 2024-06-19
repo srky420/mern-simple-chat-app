@@ -6,6 +6,8 @@ import { Link, useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import { useCookies } from "react-cookie";
 
+const SERVER_URL = import.meta.env.VITE_SERVER_URL;
+
 interface Input {
   email: string;
   password: string;
@@ -57,7 +59,7 @@ const Login = () => {
     setIsProcessing(true);
     try {
       // Request backend for login
-      const { data } = await axios.post("http://localhost:3000/login", input, {
+      const { data } = await axios.post(`${SERVER_URL}/login`, input, {
         withCredentials: true,
       });
       if (data.success) {

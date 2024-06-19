@@ -2,6 +2,7 @@ import { Schema, model } from "mongoose";
 import { createAvatar } from "@dicebear/core";
 import { bottts } from "@dicebear/collection";
 import axios from "axios";
+import saveAvatar from "../util/saveAvatar";
 
 const bcrypt = require("bcrypt");
 
@@ -45,6 +46,7 @@ const userSchema = new Schema<IUser>({
 // Pre-save password hash
 userSchema.pre("save", async function () {
   this.password = await bcrypt.hash(this.password, 12);
+  this.avatar = await saveAvatar(this.username);
 });
 
 // Define User model
