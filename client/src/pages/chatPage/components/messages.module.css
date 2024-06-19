@@ -1,7 +1,7 @@
 .msgs_container {
   width: 100%;
   height: calc(100% - 4.5rem);
-  padding: 2rem;
+  padding: calc(0.5rem + 1vw);
   overflow-y: auto;
 }
 
@@ -9,62 +9,39 @@
   display: flex;
   gap: 1rem;
   padding: calc(0.5rem + 1vw);
-  background-color: var(--dark);
-  border-radius: 1rem;
   color: var(--light);
-  margin-bottom: 1rem;
-  width: calc(15rem + 15vw);
   word-wrap: break-word;
-  border-top-left-radius: 0;
+  border-radius: 1rem;
 }
 
-.message_box_self {
-  display: flex;
-  gap: 1rem;
-  background-color: var(--primary);
-  margin-left: auto;
-  padding: calc(0.5rem + 1vw);
-  border-radius: 1rem;
-  color: var(--light);
-  margin-bottom: 1rem;
-  width: calc(20rem + 15vw);
-  word-wrap: break-word;
-  border-top-right-radius: 0;
+.message_box:hover {
+  background-color: var(--dark);
 }
 
 .message_box_chatbot {
-  display: flex;
+  display: none;
+  margin: 0 auto;
   gap: 1rem;
-  background-color: var(--dark);
   padding: calc(0.5rem + 1vw);
-  border-radius: 1rem;
   color: var(--primary);
   margin-bottom: 1rem;
-  width: calc(15rem + 15vw);
+  width: calc(18rem + 15vw);
   word-wrap: break-word;
   border-top-left-radius: 0;
 }
 
 .message_header {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
+
 }
 
 .message_header h3 {
-  font-weight: bold;
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-  white-space: nowrap;
-  text-wrap: nowrap;
-  text-overflow: ellipsis;
+
 }
 
 .message_date {
-  display: block;
-  width: fit-content;
-  margin-left: auto;
+  margin-left: 1rem;
+  font-size: 0.8rem;
+  font-weight: normal;
 }
 
 .message_header h3 i {
@@ -72,8 +49,9 @@
 }
 
 .avatar {
-  width: 3rem;
-  height: 3rem;
+  width: calc(2rem + 1vw);
+  height: calc(2rem + 1vw);
   overflow: hidden;
   border-radius: 50%;
+  flex-shrink: 0;
 }

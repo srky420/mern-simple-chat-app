@@ -50,9 +50,7 @@ const Messages = ({ socket, user }: Props) => {
       {messagesReceived.map((msg: any, i) => (
         <div
           className={
-            msg.username === user.username
-              ? styles.message_box_self
-              : msg.id === "chat_bot"
+              msg.id === "chat_bot"
               ? styles.message_box_chatbot
               : styles.message_box
           }
@@ -68,10 +66,10 @@ const Messages = ({ socket, user }: Props) => {
               <h3>
                 {msg.id === "chat_bot" && <i className="fa-solid fa-robot"></i>}
                 {msg.username}
+                <small className={styles.message_date}>
+                  {parseDate(msg.__createdtime__)}
+                </small>
               </h3>
-              <small className={styles.message_date}>
-                {parseDate(msg.__createdtime__)}
-              </small>
             </div>
             <div className={styles.message_body}>{msg.message}</div>
           </div>

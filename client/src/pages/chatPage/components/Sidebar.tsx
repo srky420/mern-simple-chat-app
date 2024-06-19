@@ -29,11 +29,9 @@ const Sidebar = ({ user, room, socket }: Props) => {
           {usersList.map((_user: any, i) => (
             <li key={"user" + i}>
               <i className="fa-solid fa-circle"></i>
+              {" "}
               <span>
-                {_user.username}{" "}
-                {_user.username === user.username && (
-                  <small style={{ color: "var(--primary)" }}>You</small>
-                )}
+                {_user.username}
               </span>
             </li>
           ))}

@@ -32,3 +32,9 @@
   font-size: clamp(6px, 0.1px + 1vw, 10px);
   color: green;
 }
+
+.users_list ul li span {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
