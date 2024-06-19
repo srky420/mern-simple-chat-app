@@ -9,6 +9,29 @@
   color: var(--light);
 }
 
+.profile_container {
+  padding: 3rem;
+  margin: 1rem;
+  border-radius: 1rem;
+  box-shadow: 0 0 10px 0 rgb(30, 30, 30);
+  width: calc(300px + 5vw);
+  background-color: var(--grey);
+  animation: fadeIn 0.2s linear;
+}
+
+.avatar {
+  width: calc(4rem + 1vw);
+  height: calc(4rem + 1vw);
+  overflow: hidden;
+  border-radius: 50%;
+  margin: 1rem auto;
+}
+
+.avatar img {
+  object-fit: contain;
+}
+
+
 .form_container {
   padding: 3rem;
   border-radius: 1rem;
@@ -44,18 +67,6 @@
 
 .logout {
   margin-top: 2rem;
-}
-
-.avatar {
-  width: 3rem;
-  height: 3rem;
-  overflow: hidden;
-  border-radius: 50%;
-  margin: 0 auto;
-}
-
-.avatar img {
-  object-fit: contain;
 }
 
 @keyframes fadeIn {

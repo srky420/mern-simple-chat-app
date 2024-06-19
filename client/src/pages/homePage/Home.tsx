@@ -48,7 +48,7 @@ const Home = ({ user, room, setUser, setRoom, socket }: Props) => {
         console.log(user);
       } else {
         setUser({});
-        setRoom('');
+        setRoom("");
         return removeCookie("token"), navigate("/login", { replace: true });
       }
     }
@@ -58,7 +58,7 @@ const Home = ({ user, room, setUser, setRoom, socket }: Props) => {
   const handleLogout = () => {
     removeCookie("token");
     setUser({});
-    setRoom('');
+    setRoom("");
     navigate("/", { replace: true });
     toast.success("You have logged out.", {
       position: "bottom-right",
@@ -84,13 +84,15 @@ const Home = ({ user, room, setUser, setRoom, socket }: Props) => {
 
   return (
     <div className={styles.container}>
-      <form onSubmit={handleSubmit} className={styles.form_container}>
-        <h1>Join a Room</h1>
+      <div className={styles.profile_container}>
         <div className={styles.avatar}>
           <img src={`${SERVER_URL}${user.avatar}`} alt="avatar" />
         </div>
         <h3 className={styles.username}>{user.username}</h3>
         <p className={styles.email}>{user.email}</p>
+      </div>
+      <form onSubmit={handleSubmit} className={styles.form_container}>
+        <h1>Join a Room</h1>
         <label htmlFor="room" className={styles.room}>
           Choose Room:
           <select
