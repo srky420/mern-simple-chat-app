@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { roomData } from "../../data/roomData";
 
 const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
@@ -41,9 +42,6 @@ const Home = ({ user, room, setUser, setRoom, socket }: Props) => {
 
       const { status, user } = data;
       if (status) {
-        toast.success(`Welcome!, ${user.username}`, {
-          position: "bottom-right",
-        });
         setUser(user);
         console.log(user);
       } else {
@@ -104,8 +102,11 @@ const Home = ({ user, room, setUser, setRoom, socket }: Props) => {
             <option value="" selected disabled hidden>
               Choose...
             </option>
-            <option value="frontend">Frontend</option>
-            <option value="backend">Backend</option>
+            {roomData.map((room, i) => (
+              <option value={room.value} key={"room" + i}>
+                {room.name}
+              </option>
+            ))}
           </select>
         </label>
         <input type="submit" value="Join" className={styles.submit} />

@@ -51,6 +51,15 @@ input[type="submit"]:hover, button:hover {
   cursor: pointer;
 }
 
+input:disabled {
+  background-color: var(--dark);
+}
+
+input:disabled:hover {
+  background-color: var(--dark);
+  cursor: not-allowed;
+}
+
 ::placeholder {
   opacity: 0.75;
   color: var(--light);

@@ -18,11 +18,10 @@
 }
 
 .message_box_chatbot {
-  display: none;
-  justify-content: center;
+  display: flex;
   gap: 1rem;
   padding: calc(0.5rem + 1vw);
-  color: var(--light);
+  color: var(--primary);
   word-wrap: break-word;
   border-radius: 1rem;
 }

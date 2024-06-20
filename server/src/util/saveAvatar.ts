@@ -6,7 +6,7 @@ export default async function (username: string) {
     `https://api.dicebear.com/9.x/bottts-neutral/svg?seed=${username}`
   );
   writeFile(`./public/avatars/${username}.svg`, avatar.data, function (err: any) {
-    if (err) throw err;
+    if (err) console.error(err);
   });
   return `/avatars/${username}.svg`;
 };

@@ -36,7 +36,7 @@ const SendMessage = ({ user, room, socket }: Props) => {
         onChange={(e) => setMessage(e.target.value)}
         placeholder="Type message..."
       />
-      <input type="submit" value="Send" />
+      <input type="submit" value="Send" disabled={message === ''} />
     </form>
   );
 };

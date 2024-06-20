@@ -49,6 +49,9 @@ export const Signup = async (req: Request, res: Response) => {
       user,
     });
   } catch (e) {
+    res.json({
+      message: "An error occured during sign up.",
+    });
     console.error(e);
   }
 };
@@ -88,6 +91,9 @@ export const Login = async (req: Request, res: Response) => {
       success: true,
     });
   } catch (e) {
+    res.json({
+      message: "An error occured during log in.",
+    });
     console.error(e);
   }
 };

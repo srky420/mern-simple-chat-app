@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import styles from "./sidebar.module.css";
 
+const SERVER_URL = import.meta.env.VITE_SERVER_URL;
+
 interface Props {
   user: any;
   room: string;
@@ -30,6 +32,9 @@ const Sidebar = ({ user, room, socket }: Props) => {
             <li key={"user" + i}>
               <i className="fa-solid fa-circle"></i>
               {" "}
+              <div className={styles.avatar}>
+                <img src={`${SERVER_URL}${_user.avatar}`} alt="avatar" />
+              </div>
               <span>
                 {_user.username}
               </span>

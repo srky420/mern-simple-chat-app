@@ -23,7 +23,7 @@ const messageSchema = new Schema<IMessage>({
   message: {
     type: String,
     required: true,
-    maxlength: 500,
+    maxlength: 1200,
   },
   room: {
     type: String,

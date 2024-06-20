@@ -63,7 +63,7 @@ const Login = () => {
         withCredentials: true,
       });
       if (data.success) {
-        toast.success(data.message, {
+        toast.success("You have successfully logged in.", {
           position: "bottom-right",
         });
         navigate("/", { replace: true });

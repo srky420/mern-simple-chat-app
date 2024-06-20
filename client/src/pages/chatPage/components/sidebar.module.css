@@ -5,6 +5,12 @@
   overflow-y: auto;
 }
 
+.sidebar p {
+  margin-bottom: 2rem;
+  color: var(--light);
+  font-size: clamp(0.5rem, 0.5rem + 0.5vw, 1rem);
+}
+
 .users_list {
   margin: calc(1rem + 1vw) 0;
 }
@@ -29,7 +35,7 @@
 }
 
 .users_list ul li i {
-  font-size: clamp(6px, 0.1px + 1vw, 10px);
+  font-size: clamp(6px, 0.5px + 1vw, 10px);
   color: green;
 }
 
@@ -37,4 +43,12 @@
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+.avatar {
+  width: calc(0.75rem + 1vw);
+  height: calc(0.75rem + 1vw);
+  overflow: hidden;
+  border-radius: 50%;
+  flex-shrink: 0;
 }
