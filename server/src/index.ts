@@ -12,15 +12,16 @@ configDotenv();
 const app: Express = express();
 const cookieParser = require("cookie-parser");
 
+const corsOptions = {
+  origin: ["https://mern-simple-chat-app.vercel.app/", "http://localhost:5173"],
+  optionsSuccessStatus: 200, // For legacy browser support
+  methods: ["GET", "PUT", "POST", "DELETE"],
+  credentials: true,
+};
+
 // Apply middleware
-app.use(
-  cors({
-    origin: "http://localhost:5173",
-    methods: ["GET", "PUT", "POST", "DELETE"],
-    credentials: true,
-  })
-);
-app.use(express.static('public'));
+app.use(cors(corsOptions));
+app.use(express.static("public"));
 app.use(express.json());
 app.use(cookieParser());
 app.use("/", authRouter);
@@ -31,7 +32,7 @@ const server: any = createServer(app);
 // Create socket.io server
 const io: Server = new Server(server, {
   cors: {
-    origin: "http://localhost:5173",
+    origin: ["https://mern-simple-chat-app.vercel.app/", "http://localhost:5173"],
     methods: ["GET", "POST"],
   },
 });
