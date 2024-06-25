@@ -8,8 +8,10 @@ import Login from "./pages/loginPage/Login";
 import Signup from "./pages/signupPage/Signup";
 import { ToastContainer } from "react-toastify";
 
+const SERVER_URL = import.meta.env.VITE_SERVER_URL;
+
 // Define socket
-const socket = io("http://localhost:3000");
+const socket = io(SERVER_URL);
 
 function App() {
   const [user, setUser] = useState<any>({});
