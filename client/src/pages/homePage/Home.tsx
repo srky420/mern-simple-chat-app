@@ -1,4 +1,4 @@
-import { SyntheticEvent, useEffect, useRef } from "react";
+import { SyntheticEvent, useEffect } from "react";
 import styles from "./home.module.css";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
@@ -18,7 +18,7 @@ interface Props {
 
 const Home = ({ user, room, setUser, setRoom, socket }: Props) => {
   // React coookies hook
-  const [cookies, setCookie, removeCookie] = useCookies(["token"]);
+  const [cookies, _, removeCookie] = useCookies(["token"]);
 
   // Navigation hook
   const navigate = useNavigate();

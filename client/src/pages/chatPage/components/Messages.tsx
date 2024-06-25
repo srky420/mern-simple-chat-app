@@ -8,7 +8,7 @@ interface Props {
   user: any;
 }
 
-const Messages = ({ socket, user }: Props) => {
+const Messages = ({ socket }: Props) => {
   const msgContainer = useRef<any>(null);
   const [messagesReceived, setMessagesReceived] = useState<object[]>([]);
 

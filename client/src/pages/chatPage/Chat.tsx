@@ -16,7 +16,7 @@ interface Props {
 }
 
 const Chat = ({ user, room, socket, setUser, setRoom }: Props) => {
-  const [cookies, setCookie, removeCookie] = useCookies(["token"]);
+  const [cookies] = useCookies(["token"]);
   const navigate = useNavigate();
 
   useEffect(() => {

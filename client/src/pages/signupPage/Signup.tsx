@@ -24,7 +24,7 @@ interface Error {
 
 const Signup = () => {
   const navigate = useNavigate();
-  const [cookies, setCookie, removeCookie] = useCookies(["token"]);
+  const [cookies] = useCookies(["token"]);
 
   // Input state
   const [input, setInput] = useState<Input>({

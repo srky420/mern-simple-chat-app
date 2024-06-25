@@ -9,7 +9,7 @@ interface Props {
   socket: any;
 }
 
-const Sidebar = ({ user, room, socket }: Props) => {
+const Sidebar = ({ room, socket }: Props) => {
   // Users list
   const [usersList, setUsersList] = useState<object[]>([]);
 
