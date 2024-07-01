@@ -41,6 +41,7 @@ export const Signup = async (req: Request, res: Response) => {
     // Store token in cookie
     res.cookie("token", token, {
       httpOnly: false,
+      sameSite: "none",
     });
 
     res.status(201).json({
@@ -84,6 +85,8 @@ export const Login = async (req: Request, res: Response) => {
     // Set cookie
     res.cookie("token", token, {
       httpOnly: false,
+      secure: true,
+      sameSite: "none",
     });
 
     res.status(200).json({
