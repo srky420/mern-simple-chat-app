@@ -4,5 +4,11 @@
       "source": "/(.*)",
       "destination": "/index.html"
     }
+  ],
+  "routes": [
+    { "src": "/login", "dest": "/" },
+    { "src": "/signup", "dest": "/" },
+    { "src": "/chat", "dest": "/" },
+    { "src": "/", "dest": "/" }
   ]
 }
